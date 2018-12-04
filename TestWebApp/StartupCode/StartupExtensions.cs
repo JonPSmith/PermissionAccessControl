@@ -75,6 +75,7 @@ namespace TestWebApp.StartupCode
         private static async Task AddUserWithRoles(IdentityUser user, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
             params string [] roleNames)
         {
+            user.EmailConfirmed = true;
             var result = await userManager.CreateAsync(user, user.Email); //email is the password
             if (!result.Succeeded)
                 throw new InvalidOperationException($"Tried to add user {user.UserName}, but failed.");

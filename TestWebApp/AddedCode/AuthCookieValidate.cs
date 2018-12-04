@@ -14,19 +14,24 @@ namespace TestWebApp.AddedCode
 {
     public class AuthCookieValidate
     {
-        private DbContextOptions<RolesDbContext> _rolesDbOptions;
+        private readonly DbContextOptions<RolesDbContext> _rolesDbOptions;
 
+        /// <summary>
+        /// This sets up
+        /// </summary>
+        /// <param name="rolesDbOptions"></param>
         public AuthCookieValidate(DbContextOptions<RolesDbContext> rolesDbOptions)
         {
             _rolesDbOptions = rolesDbOptions;
         }
 
-        public Task ValidateAsync(CookieValidatePrincipalContext context)
+        public async Task ValidateAsync(CookieValidatePrincipalContext context)
         {
             if (context.Principal.Claims.Any(x => x.Type == PermissionConstants.PackedPermissionClaimType))
-                return Task.CompletedTask;
+                return;
 
-            //No permissions in the claims, so add it
+            //No permissions in the claims so we need to add it
+            //This is only happen once after the user has logged in
             var claims = new List<Claim>();
             foreach (var claim in context.Principal.Claims)
             {
@@ -35,12 +40,15 @@ namespace TestWebApp.AddedCode
 
             var usersRoles = context.Principal.Claims.Where(x => x.Type == ClaimTypes.Role).Select(x => x.Value)
                 .ToList();
+            //I can't inject the DbContext here because that is dynamic, but I can pass in the database options because that is a singleton
+            //From that I can create a valid dbContext to access the database
             using (var dbContext = new RolesDbContext(_rolesDbOptions))
             {
-                var permissionsForUser = dbContext.RolesToPermissions.Where(x => usersRoles.Contains(x.RoleName))
+                //This gets all the permissions, with a distinct to remove duplicates
+                var permissionsForUser = await dbContext.RolesToPermissions.Where(x => usersRoles.Contains(x.RoleName))
                     .SelectMany(x => x.PermissionsInRole)
                     .Distinct()
-                    .ToList();
+                    .ToListAsync();
                 //Now add it to the claim
                 claims.Add(new Claim(PermissionConstants.PackedPermissionClaimType,
                     permissionsForUser.PackPermissionsIntoString()));
@@ -51,8 +59,6 @@ namespace TestWebApp.AddedCode
 
             context.ReplacePrincipal(newPrincipal);
             context.ShouldRenew = true;
-
-            return Task.CompletedTask;
         }
     }
 }

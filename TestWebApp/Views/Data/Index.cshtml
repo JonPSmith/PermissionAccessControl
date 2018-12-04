@@ -1,0 +1,34 @@
+﻿@model List<string>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Data
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @for (var i = 0; i < Model.Count; i++)
+    {
+        <tr>
+            <td>
+                @Model[i]
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = i })
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -13,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using TestWebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TestWebApp.StartupCode;
+using TestWebApp.AddedCode;
 
 namespace TestWebApp
 {
@@ -53,6 +55,21 @@ namespace TestWebApp
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+
+            //We build the  AuthCookie's OnValidatePrincipal 
+            var sp = services.BuildServiceProvider();
+            var roleDbOptions = sp.GetRequiredService<DbContextOptions<RolesDbContext>>();
+            var authCookieValidate = new AuthCookieValidate(roleDbOptions);
+
+            //see https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-2.1#cookie-settings
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Events.OnValidatePrincipal = authCookieValidate.ValidateAsync;
+            });
+
+            //Register the AuthorizeServices
+            services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

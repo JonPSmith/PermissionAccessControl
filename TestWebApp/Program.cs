@@ -7,7 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using TestWebApp.StartupCode;
+using TestWebApp.AddedCode;
 
 namespace TestWebApp
 {

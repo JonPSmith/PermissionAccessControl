@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PermissionParts;
 using TestWebApp.Data;
 
-namespace TestWebApp.StartupCode
+namespace TestWebApp.AddedCode
 {
     public static class StartupExtensions
     {
@@ -91,6 +91,5 @@ namespace TestWebApp.StartupCode
                 var addRoleResult = await userManager.AddToRoleAsync(user, roleName);
             }
         }
-
     }
 }

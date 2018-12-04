@@ -27,11 +27,12 @@ namespace TestWebApp.StartupCode
                 }),
         };
 
+        //NOTE: Name must be an email
         private static List<IdentityUser> _defaultUsers = new List<IdentityUser>
         {
-            new IdentityUser{ UserName = "UserRead", Email = "UR1@gmail.com"},
-            new IdentityUser{ UserName = "UserWrite", Email = "UW1@gmail.com"},
-            new IdentityUser{ UserName = "Admin", Email = "Admin1@gmail.com"},
+            new IdentityUser{ UserName = "UR1@gmail.com", Email = "UR1@gmail.com"},
+            new IdentityUser{ UserName = "UW1@gmail.com", Email = "UW1@gmail.com"},
+            new IdentityUser{ UserName = "Admin1@gmail.com", Email = "Admin1@gmail.com"},
         };
 
 
@@ -75,7 +76,6 @@ namespace TestWebApp.StartupCode
         private static async Task AddUserWithRoles(IdentityUser user, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager,
             params string [] roleNames)
         {
-            user.EmailConfirmed = true;
             var result = await userManager.CreateAsync(user, user.Email); //email is the password
             if (!result.Succeeded)
                 throw new InvalidOperationException($"Tried to add user {user.UserName}, but failed.");

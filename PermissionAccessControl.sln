@@ -8,8 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication", "WebApplication\WebApplication.csproj", "{0F8DBB5A-7204-4C5F-A191-AB5DB5A7AB69}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PermissionParts", "PermissionParts\PermissionParts.csproj", "{02633708-C1E3-45D1-9016-0499134BC581}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApp", "TestWebApp\TestWebApp.csproj", "{9EE2BC43-3AC9-4D97-8E5E-15099A20C440}"
@@ -20,10 +18,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0F8DBB5A-7204-4C5F-A191-AB5DB5A7AB69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F8DBB5A-7204-4C5F-A191-AB5DB5A7AB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F8DBB5A-7204-4C5F-A191-AB5DB5A7AB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F8DBB5A-7204-4C5F-A191-AB5DB5A7AB69}.Release|Any CPU.Build.0 = Release|Any CPU
 		{02633708-C1E3-45D1-9016-0499134BC581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{02633708-C1E3-45D1-9016-0499134BC581}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02633708-C1E3-45D1-9016-0499134BC581}.Release|Any CPU.ActiveCfg = Release|Any CPU

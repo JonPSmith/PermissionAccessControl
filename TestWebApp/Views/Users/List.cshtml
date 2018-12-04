@@ -1,0 +1,20 @@
+﻿@model List<Tuple<string, string>>
+@{
+    ViewData["Title"] = "About";
+}
+
+<h3>List of users with roles</h3>
+<table>
+    <tr>
+        <th>User</th>
+        <th>Roles</th>
+    </tr>
+    @foreach (var user in @Model)
+    {
+        <tr>
+            <td>@user.Item1 &nbsp;</td>
+            <td>@user.Item2</td>
+        </tr>
+    }
+</table>
+

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using WebApplication.StartupCode;
 
 namespace WebApplication
 {
@@ -14,11 +15,18 @@ namespace WebApplication
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            BuildWebHostAsync(args).Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        private static IWebHost BuildWebHostAsync(string[] args)
+        {
+            var webHost = WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
+
+            webHost.SetupDatabases();
+            return webHost;
+        }
+
     }
 }

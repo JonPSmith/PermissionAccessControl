@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebApplication.StartupCode;
 
 namespace WebApplication
 {
@@ -34,18 +36,37 @@ namespace WebApplication
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            //Have own database for roles to Permissions
+            var rolesConnection = SetupSqliteInMemoryConnection();
+            services.AddDbContext<RolesDbContext>(options => options.UseSqlite(rolesConnection));
+
+            //Swapped over to Sqlite in-memory database for identity database
+            var identityConnection = SetupSqliteInMemoryConnection();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(identityConnection));
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            //NOTE: Had to use AddIdentity<IdentityUser, IdentityRole>() rather than AddDefaultIdentity<IdentityUser> to get roles working
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
-
+                
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
+        //ADDED - 
+        private static SqliteConnection SetupSqliteInMemoryConnection()
+        {
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };
+            var connectionString = connectionStringBuilder.ToString();
+            var connection = new SqliteConnection(connectionString);
+            connection.Open();  //see https://github.com/aspnet/EntityFramework/issues/6968
+            return connection;
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -65,6 +86,9 @@ namespace WebApplication
             app.UseAuthentication();
 
             app.UseMvc();
+
+            //The users can only be set up after app.UseAuthentication() is called
+            serviceProvider.SetupDefaultUsersAsync().Wait();
         }
     }
 }

@@ -14,21 +14,23 @@ namespace TestWebApp.AddedCode
 {
     public static class StartupExtensions
     {
-        private static List<RoleToPermissions> _defaultRoles = new List<RoleToPermissions>
+        private const string DataReadOnlyRole = "DataReadOnly";
+        private const string DataReadWriteRole = "DataReadWrite";
+        private const string UserAdminRole = "UserAdmin";
+        private static readonly List<RoleToPermissions> DefaultRoles = new List<RoleToPermissions>
         {
-            new RoleToPermissions("DataReadOnly", "User can read the data, but nothing else", new List<Permissions>{ Permissions.DataRead}),
-            new RoleToPermissions("DataReadWrite", "User can create, read, update or delete data", 
+            new RoleToPermissions(DataReadOnlyRole, "User can read the data, but nothing else", new List<Permissions>{ Permissions.DataRead}),
+            new RoleToPermissions(DataReadWriteRole, "User can create, read, update or delete data", 
                 new List<Permissions>{ Permissions.DataRead, Permissions.DataCreate, Permissions.DataDelete, Permissions.DataUpdate}),
-            new RoleToPermissions("UserAdmin", "This user can do anything with Roles and User",
+            new RoleToPermissions(UserAdminRole, "This user can do anything with Roles and User",
                 new List<Permissions>
                 {
-                    Permissions.RoleCreate, Permissions.RoleDelete, Permissions.RoleRead, Permissions.RoleUpdate,
-                    Permissions.UserCreate, Permissions.UserDelete, Permissions.UserRead, Permissions.UserUpdate
+                    Permissions.UserRead, Permissions.RoleRead, Permissions.RoleChange, Permissions.UserChange, 
                 }),
         };
 
         //NOTE: Name must be an email
-        private static List<IdentityUser> _defaultUsers = new List<IdentityUser>
+        private static readonly List<IdentityUser> DefaultUsers = new List<IdentityUser>
         {
             new IdentityUser{ UserName = "UR1@gmail.com", Email = "UR1@gmail.com"},
             new IdentityUser{ UserName = "UW1@gmail.com", Email = "UW1@gmail.com"},
@@ -44,7 +46,7 @@ namespace TestWebApp.AddedCode
                 using (var context = services.GetRequiredService<RolesDbContext>())
                 {
                     context.Database.EnsureCreated();
-                    context.AddRange(_defaultRoles);
+                    context.AddRange(DefaultRoles);
                     context.SaveChanges();
                 }
                 using (var context = services.GetRequiredService<ApplicationDbContext>())
@@ -62,9 +64,9 @@ namespace TestWebApp.AddedCode
                 var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                await AddUserWithRoles(_defaultUsers[0], userManager, roleManager, "DataReadOnly");
-                await AddUserWithRoles(_defaultUsers[1], userManager, roleManager, "DataReadWrite");
-                await AddUserWithRoles(_defaultUsers[2], userManager, roleManager, "DataReadWrite", "UserAdmin");
+                await AddUserWithRoles(DefaultUsers[0], userManager, roleManager, DataReadOnlyRole);
+                await AddUserWithRoles(DefaultUsers[1], userManager, roleManager, DataReadWriteRole);
+                await AddUserWithRoles(DefaultUsers[2], userManager, roleManager, DataReadWriteRole, UserAdminRole);
             }
         }
 

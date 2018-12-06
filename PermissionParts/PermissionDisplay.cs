@@ -10,24 +10,44 @@ namespace PermissionParts
 {
     public class PermissionDisplay
     {
-        public PermissionDisplay(int value, string name, string description)
+        public PermissionDisplay(Permissions permission, string groupName, string name, string description, string moduleName)
         {
-            Value = value;
+            Permission = permission;
+            GroupName = groupName;
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Description = description ?? throw new ArgumentNullException(nameof(description));
+            ModuleName = moduleName;
         }
 
-        public int Value { get; private set; }
+        /// <summary>
+        /// Gives the actual permission
+        /// </summary>
+        public Permissions Permission { get; private set; }
+        /// <summary>
+        /// GroupName, which groups permissions working in the same area
+        /// </summary>
+        public string GroupName { get; private set; }
+        /// <summary>
+        /// Name of the permission - often says what it does, e.g. Read
+        /// </summary>
         public string Name { get; private set; }
+        /// <summary>
+        /// Long description of what action this permission allows 
+        /// </summary>
         public string Description { get; private set; }
+        /// <summary>
+        /// Contains an optional module that this feature is linked to
+        /// </summary>
+        public string ModuleName { get; private set; }
+
 
         /// <summary>
-        /// This builds the list of the permissions, with their grouping, to show when building Roles
+        /// This returns 
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<string, List<PermissionDisplay>> GetPermissionsGrouped(Type enumType) 
+        public static List<PermissionDisplay> GetPermissionsToDisplay(Type enumType) 
         {
-            var resultDict = new Dictionary<string, List<PermissionDisplay>>();
+            var result = new List<PermissionDisplay>();
             foreach (var permissionName in Enum.GetNames(enumType))
             {
                 var member = enumType.GetMember(permissionName);
@@ -35,17 +55,21 @@ namespace PermissionParts
                 var obsoleteAttribute = member[0].GetCustomAttribute<ObsoleteAttribute>();
                 if (obsoleteAttribute != null)
                     continue;
+                //If there is no DisplayAttribute then it is not used
                 var displayAttribute = member[0].GetCustomAttribute<DisplayAttribute>();
                 if (displayAttribute == null)
                     continue;
 
-                if (!resultDict.ContainsKey(displayAttribute.GroupName))
-                    resultDict[displayAttribute.GroupName] = new List<PermissionDisplay>();
-                var permission = Enum.Parse(enumType, permissionName, false);
-                resultDict[displayAttribute.GroupName].Add(new PermissionDisplay((int)permission, permissionName, displayAttribute.Description));
+                //Gets the optional Module that a permission can be linked to
+                var moduleAttribute = member[0].GetCustomAttribute<PermissionLinkedToModuleAttribute>();
+
+                var permission = (Permissions)Enum.Parse(enumType, permissionName, false);
+
+                result.Add(new PermissionDisplay(permission, displayAttribute.GroupName, permissionName, 
+                        displayAttribute.Description, moduleAttribute?.Module.ToString()));
             }
 
-            return resultDict;
+            return result;
         }
     }
 }

@@ -31,6 +31,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li><a asp-area="" asp-controller="Data" asp-action="Index">Data</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Users
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownAdminItems">
+                            <li>@Html.ActionLink("Your claims", "Index", "Users")</li>
+                            <li>@Html.ActionLink("List users", "List", "Users")</li>
+                            <li>@Html.ActionLink("List roles", "Roles", "Users")</li>
+                            <li>@Html.ActionLink("List permissions", "Permissions", "Users")</li>
+                        </ul>
+                    </li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>

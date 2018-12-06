@@ -23,12 +23,12 @@ namespace PermissionParts
         [Display(GroupName = "UserAdmin", Name = "Read user", Description = "can list User")]
         UserRead = 0x20,
         //This is an example of grouping multiple actions under one permission
-        [Display(GroupName = "UserAdmin", Name = "Create user", Description = "can do anything to the User")]
+        [Display(GroupName = "UserAdmin", Name = "Alter user", Description = "can do anything to the User")]
         UserChange = 0x21,
 
         [Display(GroupName = "UserAdmin", Name = "Read Role", Description = "can list Role")]
         RoleRead = 0x28,
-        [Display(GroupName = "UserAdmin", Name = "Create Role", Description = "can create, update or delete a Role")]
+        [Display(GroupName = "UserAdmin", Name = "Change Role", Description = "can create, update or delete a Role")]
         RoleChange = 0x29,
 
         //This is an example of a permission that is linked to a option (paid for?) feature

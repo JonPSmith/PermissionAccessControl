@@ -29,7 +29,7 @@ namespace TestWebApp.AddedCode
                 }),
         };
 
-        //NOTE: Name must be an email
+        //NOTE: ShortName must be an email
         private static readonly List<IdentityUser> DefaultUsers = new List<IdentityUser>
         {
             new IdentityUser{ UserName = "UR1@gmail.com", Email = "UR1@gmail.com"},

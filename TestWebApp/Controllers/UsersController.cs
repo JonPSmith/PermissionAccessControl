@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using PermissionParts;
 using TestWebApp.Data;
 
 namespace TestWebApp.Controllers
 {
     public class UsersController : Controller
     {
-        private ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext _applicationDbContext;
 
         public UsersController(ApplicationDbContext applicationDbContext)
         {
@@ -33,6 +34,17 @@ namespace TestWebApp.Controllers
             }
 
             return View(result);
+        }
+
+        public IActionResult Roles([FromServices]RolesDbContext context)
+        {
+            var roles = context.RolesToPermissions.ToList();
+            return View(roles);
+        }
+
+        public IActionResult Permissions()
+        {
+            return View(PermissionDisplay.GetPermissionsToDisplay(typeof(Permissions)));
         }
     }
 }

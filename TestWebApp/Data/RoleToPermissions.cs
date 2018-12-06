@@ -14,7 +14,7 @@ namespace TestWebApp.Data
         private string _permissionsInRole;
 
         /// <summary>
-        /// Name of the role
+        /// ShortName of the role
         /// </summary>
         [Key]
         [Required(AllowEmptyStrings = false)]

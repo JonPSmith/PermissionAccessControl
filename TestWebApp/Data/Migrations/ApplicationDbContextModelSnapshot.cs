@@ -27,7 +27,7 @@ namespace TestWebApp.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ShortName")
                         .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
@@ -174,12 +174,12 @@ namespace TestWebApp.Data.Migrations
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ShortName")
                         .HasMaxLength(128);
 
                     b.Property<string>("Value");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.HasKey("UserId", "LoginProvider", "ShortName");
 
                     b.ToTable("AspNetUserTokens");
                 });

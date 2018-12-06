@@ -10,31 +10,32 @@ namespace PermissionParts
 {
     public class PermissionDisplay
     {
-        public PermissionDisplay(Permissions permission, string groupName, string name, string description, string moduleName)
+        public PermissionDisplay(string groupName, string name, string description, Permissions permission,
+            string moduleName)
         {
             Permission = permission;
             GroupName = groupName;
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            ShortName = name ?? throw new ArgumentNullException(nameof(name));
             Description = description ?? throw new ArgumentNullException(nameof(description));
             ModuleName = moduleName;
         }
 
         /// <summary>
-        /// Gives the actual permission
-        /// </summary>
-        public Permissions Permission { get; private set; }
-        /// <summary>
         /// GroupName, which groups permissions working in the same area
         /// </summary>
         public string GroupName { get; private set; }
         /// <summary>
-        /// Name of the permission - often says what it does, e.g. Read
+        /// ShortName of the permission - often says what it does, e.g. Read
         /// </summary>
-        public string Name { get; private set; }
+        public string ShortName { get; private set; }
         /// <summary>
         /// Long description of what action this permission allows 
         /// </summary>
         public string Description { get; private set; }
+        /// <summary>
+        /// Gives the actual permission
+        /// </summary>
+        public Permissions Permission { get; private set; }
         /// <summary>
         /// Contains an optional module that this feature is linked to
         /// </summary>
@@ -65,8 +66,8 @@ namespace PermissionParts
 
                 var permission = (Permissions)Enum.Parse(enumType, permissionName, false);
 
-                result.Add(new PermissionDisplay(permission, displayAttribute.GroupName, permissionName, 
-                        displayAttribute.Description, moduleAttribute?.Module.ToString()));
+                result.Add(new PermissionDisplay(displayAttribute.GroupName, displayAttribute.Name, 
+                        displayAttribute.Description, permission, moduleAttribute?.Module.ToString()));
             }
 
             return result;

@@ -52,8 +52,8 @@ namespace TestWebApp.AddedCode
                     .ToListAsync();
                 //we get the modules this user is allows to see
                 var userModules =
-                    dbContext.ModulesForUsers.Find(
-                        context.Principal.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Email))?.AllowedPaidForModules ?? PaidForModules.None;
+                    dbContext.ModulesForUsers.Find(context.Principal.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Name).Value)
+                        ?.AllowedPaidForModules ?? PaidForModules.None;
                 //Now we remove permissions that are linked to modules that the user has no access to
                 var filteredPermissions =
                     from permission in permissionsForUser

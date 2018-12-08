@@ -34,9 +34,12 @@ namespace PermissionParts
         //This is an example of a permission linked to a optional (paid for?) feature
         //The code that turns roles to permissions can
         //remove this permission if the user isn't allowed to access this feature
-        [PermissionLinkedToModule(Modules.Feature1)]
-        [Display(GroupName = "Feature1", Name = "Access", Description = "Can allows a user to access feature1")]
-        Feature1Access = 0x31,
+        [PermissionLinkedToModule(PaidForModules.Feature1)]
+        [Display(GroupName = "Features", Name = "Feature1", Description = "Can allows a user to access feature1")]
+        Feature1Access = 0x30,
+        [PermissionLinkedToModule(PaidForModules.Feature2)]
+        [Display(GroupName = "Features", Name = "Feature2", Description = "Can allows a user to access feature2")]
+        Feature2Access = 0x31,
 
         //This is an example of what to do with permission you don't used anymore.
         //You don't want its number to be reused as it could cause problems 

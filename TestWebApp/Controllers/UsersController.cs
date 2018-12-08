@@ -36,7 +36,7 @@ namespace TestWebApp.Controllers
             return View(result);
         }
 
-        public IActionResult Roles([FromServices]RolesDbContext context)
+        public IActionResult Roles([FromServices]ExtraAuthorizeDbContext context)
         {
             var roles = context.RolesToPermissions.ToList();
             return View(roles);

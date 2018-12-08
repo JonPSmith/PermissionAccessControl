@@ -8,11 +8,11 @@ namespace PermissionParts
     [AttributeUsage(AttributeTargets.Field)]
     public class PermissionLinkedToModuleAttribute : Attribute
     {
-        public Modules Module { get; private set; }
+        public PaidForModules PaidForModule { get; private set; }
 
-        public PermissionLinkedToModuleAttribute(Modules module)
+        public PermissionLinkedToModuleAttribute(PaidForModules paidForModule)
         {
-            Module = module;
+            PaidForModule = paidForModule;
         }
     }
 }

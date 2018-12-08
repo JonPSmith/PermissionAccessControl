@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,13 +15,13 @@ namespace TestWebApp.AddedCode
 {
     public class AuthCookieValidate
     {
-        private readonly DbContextOptions<RolesDbContext> _rolesDbOptions;
+        private readonly DbContextOptions<ExtraAuthorizeDbContext> _rolesDbOptions;
 
         /// <summary>
         /// This sets up
         /// </summary>
         /// <param name="rolesDbOptions"></param>
-        public AuthCookieValidate(DbContextOptions<RolesDbContext> rolesDbOptions)
+        public AuthCookieValidate(DbContextOptions<ExtraAuthorizeDbContext> rolesDbOptions)
         {
             _rolesDbOptions = rolesDbOptions;
         }
@@ -42,16 +43,28 @@ namespace TestWebApp.AddedCode
                 .ToList();
             //I can't inject the DbContext here because that is dynamic, but I can pass in the database options because that is a singleton
             //From that I can create a valid dbContext to access the database
-            using (var dbContext = new RolesDbContext(_rolesDbOptions))
+            using (var dbContext = new ExtraAuthorizeDbContext(_rolesDbOptions))
             {
                 //This gets all the permissions, with a distinct to remove duplicates
                 var permissionsForUser = await dbContext.RolesToPermissions.Where(x => usersRoles.Contains(x.RoleName))
                     .SelectMany(x => x.PermissionsInRole)
                     .Distinct()
                     .ToListAsync();
-                //Now add it to the claim
-                claims.Add(new Claim(PermissionConstants.PackedPermissionClaimType,
-                    permissionsForUser.PackPermissionsIntoString()));
+                //we get the modules this user is allows to see
+                var userModules =
+                    dbContext.ModulesForUsers.Find(
+                        context.Principal.Claims.SingleOrDefault(x => x.Type == ClaimTypes.Email))?.AllowedPaidForModules ?? PaidForModules.None;
+                //Now we remove permissions that are linked to modules that the user has no access to
+                var filteredPermissions =
+                    from permission in permissionsForUser
+                    let moduleAttr = typeof(Permissions).GetMember(permission.ToString())[0]
+                        .GetCustomAttribute<PermissionLinkedToModuleAttribute>()
+                    where moduleAttr == null || userModules.HasFlag(moduleAttr.PaidForModule)
+                    select permission;
+
+                  //Now add it to the claim
+                  claims.Add(new Claim(PermissionConstants.PackedPermissionClaimType,
+                      filteredPermissions.PackPermissionsIntoString()));
             }
 
             var identity = new ClaimsIdentity(claims, "Cookie");

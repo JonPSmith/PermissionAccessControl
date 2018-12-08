@@ -14,39 +14,47 @@ namespace TestWebApp.AddedCode
 {
     public static class StartupExtensions
     {
-        private const string DataReadOnlyRole = "DataReadOnly";
-        private const string DataReadWriteRole = "DataReadWrite";
-        private const string UserAdminRole = "UserAdmin";
+        private const string DataReadOnlyRole = "Staff";
+        private const string DataReadWriteRole = "Manager";
+        private const string UserAdminRole = "Admin";
+
+        private const string StaffUserEmail = "Staff@g1.com";
+        private const string ManagerUserEmail = "Manager@g1.com";
+        private const string AdminUserEmail = "Admin@g1.com";
+
         private static readonly List<RoleToPermissions> DefaultRoles = new List<RoleToPermissions>
         {
-            new RoleToPermissions(DataReadOnlyRole, "User can read the data, but nothing else", new List<Permissions>{ Permissions.DataRead}),
-            new RoleToPermissions(DataReadWriteRole, "User can create, read, update or delete data", 
-                new List<Permissions>{ Permissions.DataRead, Permissions.DataCreate, Permissions.DataDelete, Permissions.DataUpdate}),
-            new RoleToPermissions(UserAdminRole, "This user can do anything with Roles and User",
-                new List<Permissions>
-                {
-                    Permissions.UserRead, Permissions.RoleRead, Permissions.RoleChange, Permissions.UserChange, 
-                }),
+            new RoleToPermissions(DataReadOnlyRole, "Staff can only read data", new List<Permissions>{ Permissions.DataRead, Permissions.Feature1Access}),
+            new RoleToPermissions(DataReadWriteRole, "Managers can read/write the data", 
+                new List<Permissions>{ Permissions.DataRead, Permissions.DataCreate, Permissions.DataDelete, Permissions.DataUpdate, Permissions.Feature1Access}),
+            new RoleToPermissions(UserAdminRole, "Admin can manage users, but not read data",
+                new List<Permissions> {Permissions.UserRead,Permissions.UserChange, Permissions.Feature1Access, Permissions.Feature2Access }),
+        };
+
+        private static readonly List<ModulesForUser> DefaultModules = new List<ModulesForUser>
+        {
+            new ModulesForUser(StaffUserEmail, PaidForModules.Feature1),
+            new ModulesForUser(AdminUserEmail, PaidForModules.Feature1 | PaidForModules.Feature2),
         };
 
         //NOTE: ShortName must be an email
         private static readonly List<IdentityUser> DefaultUsers = new List<IdentityUser>
         {
-            new IdentityUser{ UserName = "UR1@gmail.com", Email = "UR1@gmail.com"},
-            new IdentityUser{ UserName = "UW1@gmail.com", Email = "UW1@gmail.com"},
-            new IdentityUser{ UserName = "Admin1@gmail.com", Email = "Admin1@gmail.com"},
+            new IdentityUser{ UserName = StaffUserEmail, Email = StaffUserEmail},
+            new IdentityUser{ UserName = ManagerUserEmail, Email = ManagerUserEmail},
+            new IdentityUser{ UserName = AdminUserEmail, Email = AdminUserEmail},
         };
-
 
         public static void SetupDatabases(this IWebHost webHost)
         {
             using (var scope = webHost.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                using (var context = services.GetRequiredService<RolesDbContext>())
+                using (var context = services.GetRequiredService<ExtraAuthorizeDbContext>())
                 {
                     context.Database.EnsureCreated();
                     context.AddRange(DefaultRoles);
+                    context.AddRange(DefaultModules);
                     context.SaveChanges();
                 }
                 using (var context = services.GetRequiredService<ApplicationDbContext>())
@@ -88,9 +96,9 @@ namespace TestWebApp.AddedCode
                 if (!roleExist)
                 {
                     //create the roles and seed them to the database: Question 1
-                    var roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
-                var addRoleResult = await userManager.AddToRoleAsync(user, roleName);
+                await userManager.AddToRoleAsync(user, roleName);
             }
         }
     }

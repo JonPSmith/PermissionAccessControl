@@ -40,7 +40,7 @@ namespace TestWebApp
 
             //Have own database for roles to Permissions
             var rolesConnection = SetupSqliteInMemoryConnection();
-            services.AddDbContext<RolesDbContext>(options => options.UseSqlite(rolesConnection));
+            services.AddDbContext<ExtraAuthorizeDbContext>(options => options.UseSqlite(rolesConnection));
 
             //Swapped over to Sqlite in-memory database for identity database
             var identityConnection = SetupSqliteInMemoryConnection();
@@ -58,7 +58,7 @@ namespace TestWebApp
 
             //We build the  AuthCookie's OnValidatePrincipal 
             var sp = services.BuildServiceProvider();
-            var roleDbOptions = sp.GetRequiredService<DbContextOptions<RolesDbContext>>();
+            var roleDbOptions = sp.GetRequiredService<DbContextOptions<ExtraAuthorizeDbContext>>();
             var authCookieValidate = new AuthCookieValidate(roleDbOptions);
 
             //see https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-2.1#cookie-settings

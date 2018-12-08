@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using PermissionParts
+@using TestWebApp.AddedCode
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -44,6 +46,10 @@
                             <li>@Html.ActionLink("List permissions", "Permissions", "Users")</li>
                         </ul>
                     </li>
+                    @if (User.UserHasThisPermission(Permissions.Feature1Access))
+                    {
+                        <li><a asp-area="" asp-controller="Feature1" asp-action="Index">Feature1</a></li>
+                    }
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>

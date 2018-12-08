@@ -5,11 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TestWebApp.Data
 {
-    public class RolesDbContext : DbContext
+    public class ExtraAuthorizeDbContext : DbContext
     {
         public DbSet<RoleToPermissions> RolesToPermissions { get; set; }
+        public DbSet<ModulesForUser> ModulesForUsers { get; set; }
 
-        public RolesDbContext(DbContextOptions<RolesDbContext> options)
+        public ExtraAuthorizeDbContext(DbContextOptions<ExtraAuthorizeDbContext> options)
             : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

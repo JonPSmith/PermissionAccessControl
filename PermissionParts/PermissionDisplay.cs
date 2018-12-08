@@ -37,7 +37,7 @@ namespace PermissionParts
         /// </summary>
         public Permissions Permission { get; private set; }
         /// <summary>
-        /// Contains an optional module that this feature is linked to
+        /// Contains an optional paidForModule that this feature is linked to
         /// </summary>
         public string ModuleName { get; private set; }
 
@@ -61,13 +61,13 @@ namespace PermissionParts
                 if (displayAttribute == null)
                     continue;
 
-                //Gets the optional Module that a permission can be linked to
+                //Gets the optional PaidForModule that a permission can be linked to
                 var moduleAttribute = member[0].GetCustomAttribute<PermissionLinkedToModuleAttribute>();
 
                 var permission = (Permissions)Enum.Parse(enumType, permissionName, false);
 
                 result.Add(new PermissionDisplay(displayAttribute.GroupName, displayAttribute.Name, 
-                        displayAttribute.Description, permission, moduleAttribute?.Module.ToString()));
+                        displayAttribute.Description, permission, moduleAttribute?.PaidForModule.ToString()));
             }
 
             return result;

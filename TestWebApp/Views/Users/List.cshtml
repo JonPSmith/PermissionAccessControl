@@ -1,20 +1,22 @@
-﻿@model List<Tuple<string, string>>
+﻿@model List<TestWebApp.DisplayCode.UserListDto>
 @{
     ViewData["Title"] = "All users";
 }
 
-<h3>List of users with roles</h3>
+<h3>List of users</h3>
 <table class="table">
     <tr>
-        <th>User</th>
+        <th>User Email</th>
         <th>Roles</th>
+        <th>Allowed Modules</th>
     </tr>
     @foreach (var user in @Model)
     {
-        <tr>
-            <td>@user.Item1 &nbsp;</td>
-            <td>@user.Item2</td>
-        </tr>
+    <tr>
+        <td>@user.Email</td>
+        <td>@user.RoleNames</td>
+        <td>@user.ModuleNames</td>
+    </tr>
     }
 </table>
 

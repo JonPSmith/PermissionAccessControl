@@ -4,16 +4,19 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using PermissionParts;
 using TestWebApp.Data;
+using TestWebApp.DisplayCode;
 
 namespace TestWebApp.Controllers
 {
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _applicationDbContext;
+        private readonly ExtraAuthorizeDbContext _extraAuthorizeDbContext;
 
-        public UsersController(ApplicationDbContext applicationDbContext)
+        public UsersController(ApplicationDbContext applicationDbContext, ExtraAuthorizeDbContext extraAuthorizeDbContext)
         {
             _applicationDbContext = applicationDbContext;
+            _extraAuthorizeDbContext = extraAuthorizeDbContext;
         }
 
         public IActionResult Index()
@@ -23,22 +26,15 @@ namespace TestWebApp.Controllers
 
         public IActionResult List()
         {
-            var rolesWithUserIds = _applicationDbContext.UserRoles
-                .Select(x => new { _applicationDbContext.Roles.Single(y => y.Id == x.RoleId).Name, x.UserId }).ToList();
+            var lister = new ListUsers(_applicationDbContext, _extraAuthorizeDbContext);
 
-            var result = new List<Tuple<string, string>>();
-            foreach (var user in _applicationDbContext.Users)
-            {
-                result.Add(new Tuple<string, string>(user.UserName,
-                    string.Join(", ", rolesWithUserIds.Where(x => x.UserId == user.Id).Select(x => x.Name))));
-            }
-
-            return View(result);
+            return View(lister.ListUserWithRolesAndModules());
         }
 
-        public IActionResult Roles([FromServices]ExtraAuthorizeDbContext context)
+
+        public IActionResult Roles()
         {
-            var roles = context.RolesToPermissions.ToList();
+            var roles = _extraAuthorizeDbContext.RolesToPermissions.ToList();
             return View(roles);
         }
 

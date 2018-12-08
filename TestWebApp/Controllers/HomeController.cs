@@ -4,15 +4,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TestWebApp.Data;
+using TestWebApp.DisplayCode;
 using TestWebApp.Models;
 
 namespace TestWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index([FromServices]ApplicationDbContext applicationDbContext,
+                                   [FromServices] ExtraAuthorizeDbContext extraAuthorizeDbContext)
         {
-            return View();
+            var userLister = new ListUsers(applicationDbContext, extraAuthorizeDbContext);
+            var roleLister = new ListRoles(extraAuthorizeDbContext);
+
+            return View(new HomePageDto(userLister.ListUserWithRolesAndModules(), roleLister.ListRolesWithPermissionsExplained().ToList()));
         }
 
         public IActionResult About()

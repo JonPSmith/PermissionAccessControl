@@ -18,9 +18,9 @@ namespace TestWebApp.AddedCode
         private const string DataReadWriteRole = "Manager";
         private const string UserAdminRole = "Admin";
 
-        private const string StaffUserEmail = "Staff@g1.com";
-        private const string ManagerUserEmail = "Manager@g1.com";
-        private const string AdminUserEmail = "Admin@g1.com";
+        public const string StaffUserEmail = "Staff@g1.com";
+        public const string ManagerUserEmail = "Manager@g1.com";
+        public const string AdminUserEmail = "Admin@g1.com";
 
         private static readonly List<RoleToPermissions> DefaultRoles = new List<RoleToPermissions>
         {
@@ -34,6 +34,7 @@ namespace TestWebApp.AddedCode
         private static readonly List<ModulesForUser> DefaultModules = new List<ModulesForUser>
         {
             new ModulesForUser(StaffUserEmail, PaidForModules.Feature1),
+            //Note that there is no entry for ManagerUserEmail - that means they can't access any feature modules
             new ModulesForUser(AdminUserEmail, PaidForModules.Feature1 | PaidForModules.Feature2),
         };
 

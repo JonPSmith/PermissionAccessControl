@@ -9,25 +9,25 @@ using TestWebApp.AddedCode;
 
 namespace TestWebApp.Controllers
 {
-    public class DataController : Controller
+    public class ColorController : Controller
     {
         private static readonly List<string> MyData = new List<string>{ "Red", "Blue", "Green", "Yellow"};
 
-        [HasPermission(Permissions.DataRead)]
+        [HasPermission(Permissions.ColorRead)]
         // GET: Data
         public ActionResult Index()
         {
             return View(MyData);
         }
 
-        [HasPermission(Permissions.DataCreate)]
+        [HasPermission(Permissions.ColorCreate)]
         // GET: Data/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        [HasPermission(Permissions.DataCreate)]
+        [HasPermission(Permissions.ColorCreate)]
         // POST: Data/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -45,7 +45,7 @@ namespace TestWebApp.Controllers
             }
         }
 
-        [HasPermission(Permissions.DataDelete)]
+        [HasPermission(Permissions.ColorDelete)]
         // GET: Data/Delete/5
         public ActionResult Delete(int id)
         {

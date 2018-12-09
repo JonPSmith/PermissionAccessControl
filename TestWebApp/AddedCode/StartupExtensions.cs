@@ -24,9 +24,9 @@ namespace TestWebApp.AddedCode
 
         private static readonly List<RoleToPermissions> DefaultRoles = new List<RoleToPermissions>
         {
-            new RoleToPermissions(DataReadOnlyRole, "Staff can only read data", new List<Permissions>{ Permissions.DataRead, Permissions.Feature1Access}),
+            new RoleToPermissions(DataReadOnlyRole, "Staff can only read data", new List<Permissions>{ Permissions.ColorRead, Permissions.Feature1Access}),
             new RoleToPermissions(DataReadWriteRole, "Managers can read/write the data", 
-                new List<Permissions>{ Permissions.DataRead, Permissions.DataCreate, Permissions.DataDelete, Permissions.DataUpdate, Permissions.Feature1Access}),
+                new List<Permissions>{ Permissions.ColorRead, Permissions.ColorCreate, Permissions.ColorDelete, Permissions.ColorUpdate, Permissions.Feature1Access}),
             new RoleToPermissions(UserAdminRole, "Admin can manage users, but not read data",
                 new List<Permissions> {Permissions.UserRead,Permissions.UserChange, Permissions.Feature1Access, Permissions.Feature2Access }),
         };

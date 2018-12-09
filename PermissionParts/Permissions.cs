@@ -11,14 +11,14 @@ namespace PermissionParts
         NotSet = 0, //error condition
 
         //Here is an example of very detailed control over something
-        [Display(GroupName = "Data", Name = "Read", Description = "Can read data")]
-        DataRead = 0x10,
-        [Display(GroupName = "Data", Name = "Create", Description = "Can create data")]
-        DataCreate = 0x11,
-        [Display(GroupName = "Data", Name = "Update", Description = "Can update data")]
-        DataUpdate = 0x12,
-        [Display(GroupName = "Data", Name = "Delete", Description = "Can delete data")]
-        DataDelete = 0x13,
+        [Display(GroupName = "Color", Name = "Read", Description = "Can read colors")]
+        ColorRead = 0x10,
+        [Display(GroupName = "Color", Name = "Create", Description = "Can create a color entry")]
+        ColorCreate = 0x11,
+        [Display(GroupName = "Color", Name = "Update", Description = "Can update a color entry")]
+        ColorUpdate = 0x12,
+        [Display(GroupName = "Color", Name = "Delete", Description = "Can delete a color entry")]
+        ColorDelete = 0x13,
 
         [Display(GroupName = "UserAdmin", Name = "Read users", Description = "Can list User")]
         UserRead = 0x20,

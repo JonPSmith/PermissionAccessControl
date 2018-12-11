@@ -14,9 +14,9 @@ namespace TestWebApp.AddedCode
 {
     public static class StartupExtensions
     {
-        private const string DataReadOnlyRole = "Staff";
-        private const string DataReadWriteRole = "Manager";
-        private const string UserAdminRole = "Admin";
+        public const string StaffRoleName = "Staff";
+        public const string ManagerRoleName = "Manager";
+        public const string AdminRoleName = "Admin";
 
         public const string StaffUserEmail = "Staff@g1.com";
         public const string ManagerUserEmail = "Manager@g1.com";
@@ -24,10 +24,10 @@ namespace TestWebApp.AddedCode
 
         private static readonly List<RoleToPermissions> DefaultRoles = new List<RoleToPermissions>
         {
-            new RoleToPermissions(DataReadOnlyRole, "Staff can only read data", new List<Permissions>{ Permissions.ColorRead, Permissions.Feature1Access}),
-            new RoleToPermissions(DataReadWriteRole, "Managers can read/write the data", 
+            new RoleToPermissions(StaffRoleName, "Staff can only read data", new List<Permissions>{ Permissions.ColorRead, Permissions.Feature1Access}),
+            new RoleToPermissions(ManagerRoleName, "Managers can read/write the data", 
                 new List<Permissions>{ Permissions.ColorRead, Permissions.ColorCreate, Permissions.ColorDelete, Permissions.ColorUpdate, Permissions.Feature1Access}),
-            new RoleToPermissions(UserAdminRole, "Admin can manage users, but not read data",
+            new RoleToPermissions(AdminRoleName, "Admin can manage users, but not read data",
                 new List<Permissions> {Permissions.UserRead,Permissions.UserChange, Permissions.Feature1Access, Permissions.Feature2Access }),
         };
 
@@ -73,9 +73,9 @@ namespace TestWebApp.AddedCode
                 var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                await AddUserWithRoles(DefaultUsers[0], userManager, roleManager, DataReadOnlyRole);
-                await AddUserWithRoles(DefaultUsers[1], userManager, roleManager, DataReadWriteRole);
-                await AddUserWithRoles(DefaultUsers[2], userManager, roleManager, DataReadWriteRole, UserAdminRole);
+                await AddUserWithRoles(DefaultUsers[0], userManager, roleManager, StaffRoleName);
+                await AddUserWithRoles(DefaultUsers[1], userManager, roleManager, ManagerRoleName);
+                await AddUserWithRoles(DefaultUsers[2], userManager, roleManager, ManagerRoleName, AdminRoleName);
             }
         }
 

@@ -34,7 +34,7 @@ namespace PermissionParts
             int index = packPrefix.Length;
             while (index < packedPermissions.Length)
             {
-                yield return Int32.Parse(packedPermissions.Substring(index, PackedSize), NumberStyles.HexNumber);
+                yield return int.Parse(packedPermissions.Substring(index, PackedSize), NumberStyles.HexNumber);
                 index += PackedSize;
             }
         }

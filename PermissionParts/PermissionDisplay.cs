@@ -56,7 +56,7 @@ namespace PermissionParts
                 var obsoleteAttribute = member[0].GetCustomAttribute<ObsoleteAttribute>();
                 if (obsoleteAttribute != null)
                     continue;
-                //If there is no DisplayAttribute then it is not used
+                //If there is no DisplayAttribute then the Enum is not used
                 var displayAttribute = member[0].GetCustomAttribute<DisplayAttribute>();
                 if (displayAttribute == null)
                     continue;

@@ -34,10 +34,10 @@ namespace PermissionParts
         //This is an example of a permission linked to a optional (paid for?) feature
         //The code that turns roles to permissions can
         //remove this permission if the user isn't allowed to access this feature
-        [PermissionLinkedToModule(PaidForModules.Feature1)]
+        [LinkedToModule(PaidForModules.Feature1)]
         [Display(GroupName = "Features", Name = "Feature1", Description = "Can access feature1")]
         Feature1Access = 0x30,
-        [PermissionLinkedToModule(PaidForModules.Feature2)]
+        [LinkedToModule(PaidForModules.Feature2)]
         [Display(GroupName = "Features", Name = "Feature2", Description = "Can access feature2")]
         Feature2Access = 0x31,
 

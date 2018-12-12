@@ -9,7 +9,7 @@ namespace PermissionParts
     /// This is an example of how you would manage what optional parts of your system a user can access
     /// </summary>
     [Flags]
-    public enum PaidForModules
+    public enum PaidForModules : long
     {
         None = 0,
         Feature1 = 1,

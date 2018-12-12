@@ -28,7 +28,7 @@ namespace TestWebApp.DisplayCode
                     let displayAttr = typeof(Permissions).GetMember(permission.ToString())[0]
                         .GetCustomAttribute<DisplayAttribute>()
                     let moduleAttr = typeof(Permissions).GetMember(permission.ToString())[0]
-                        .GetCustomAttribute<PermissionLinkedToModuleAttribute>()
+                        .GetCustomAttribute<LinkedToModuleAttribute>()
                     select new PermissionWithDesc(permission.ToString(), displayAttr?.Description, moduleAttr?.PaidForModule.ToString());
                 yield return new RolesListDto(roleToPermissions.RoleName, permissionsWithDesc.ToList());
             }

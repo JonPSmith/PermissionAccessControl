@@ -6,11 +6,11 @@ using System;
 namespace PermissionParts
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class PermissionLinkedToModuleAttribute : Attribute
+    public class LinkedToModuleAttribute : Attribute
     {
         public PaidForModules PaidForModule { get; private set; }
 
-        public PermissionLinkedToModuleAttribute(PaidForModules paidForModule)
+        public LinkedToModuleAttribute(PaidForModules paidForModule)
         {
             PaidForModule = paidForModule;
         }

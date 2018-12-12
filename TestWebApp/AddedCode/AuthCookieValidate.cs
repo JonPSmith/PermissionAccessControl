@@ -15,15 +15,15 @@ namespace TestWebApp.AddedCode
 {
     public class AuthCookieValidate
     {
-        private readonly DbContextOptions<ExtraAuthorizeDbContext> _rolesDbOptions;
+        private readonly DbContextOptions<ExtraAuthorizeDbContext> _extraAuthDbContextOptions;
 
         /// <summary>
         /// This sets up
         /// </summary>
-        /// <param name="rolesDbOptions"></param>
-        public AuthCookieValidate(DbContextOptions<ExtraAuthorizeDbContext> rolesDbOptions)
+        /// <param name="extraAuthDbContextOptions"></param>
+        public AuthCookieValidate(DbContextOptions<ExtraAuthorizeDbContext> extraAuthDbContextOptions)
         {
-            _rolesDbOptions = rolesDbOptions;
+            _extraAuthDbContextOptions = extraAuthDbContextOptions;
         }
 
         public async Task ValidateAsync(CookieValidatePrincipalContext context)
@@ -43,7 +43,7 @@ namespace TestWebApp.AddedCode
                 .ToList();
             //I can't inject the DbContext here because that is dynamic, but I can pass in the database options because that is a singleton
             //From that I can create a valid dbContext to access the database
-            using (var dbContext = new ExtraAuthorizeDbContext(_rolesDbOptions))
+            using (var dbContext = new ExtraAuthorizeDbContext(_extraAuthDbContextOptions))
             {
                 //This gets all the permissions, with a distinct to remove duplicates
                 var permissionsForUser = await dbContext.RolesToPermissions.Where(x => usersRoles.Contains(x.RoleName))
@@ -58,7 +58,7 @@ namespace TestWebApp.AddedCode
                 var filteredPermissions =
                     from permission in permissionsForUser
                     let moduleAttr = typeof(Permissions).GetMember(permission.ToString())[0]
-                        .GetCustomAttribute<PermissionLinkedToModuleAttribute>()
+                        .GetCustomAttribute<LinkedToModuleAttribute>()
                     where moduleAttr == null || userModules.HasFlag(moduleAttr.PaidForModule)
                     select permission;
 

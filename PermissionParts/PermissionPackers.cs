@@ -29,7 +29,8 @@ namespace PermissionParts
             if (packedPermissions == null)
                 throw new ArgumentNullException(nameof(packedPermissions));
             if (!packedPermissions.StartsWith(packPrefix))
-                throw new InvalidOperationException("The format of the packed permissions is wrong - should start with n-");
+                throw new InvalidOperationException("The format of the packed permissions is wrong" +
+                                                    $" - should start with {packPrefix}");
 
             int index = packPrefix.Length;
             while (index < packedPermissions.Length)

@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using PermissionParts;
 
-namespace TestWebApp.Data
+namespace DataLayer.EfClasses
 {
     /// <summary>
     /// This holds what modules a user can access, using the user's email as the key

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using PermissionParts;
 
-namespace TestWebApp.Data
+namespace DataLayer.EfClasses
 {
     public class RoleToPermissions
     {

@@ -39,7 +39,7 @@ namespace TestWebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //Have own database for roles to Permissions
+            //Have own database for roles to Permissions and Modules - uses in-memory database
             var rolesConnection = SetupSqliteInMemoryConnection();
             services.AddDbContext<ExtraAuthorizeDbContext>(options => options.UseSqlite(rolesConnection));
 
@@ -68,7 +68,7 @@ namespace TestWebApp
                 options.Events.OnValidatePrincipal = authCookieValidate.ValidateAsync;
             });
 
-            //Register the AuthorizeServices
+            //Register the Permission policy handlers
             services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 

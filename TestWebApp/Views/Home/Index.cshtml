@@ -12,15 +12,12 @@
 </p>
 <h4>Please read the article <a href="">???</a> for how this works.</h4>
 
-<p>Here are some things to try</p>
-<ol>
-    <li>
-        Log in as <strong>@StartupExtensions.StaffUserEmail</strong> using the "Login" button (top right). The password is the same as email.
-        <br />
-        Notice that a "Feature1" button appears in the nav bar. That's because that @StartupExtensions.StaffUserEmail has access to the Feature1 module.
-    </li>
-    <li>Now click the "Color" button in the nav bar.</li>
-</ol>
+<p>
+    <strong>NOTE:</strong> the @Html.ActionLink("ColorController", "Index", "Color")  and the @Html.ActionLink("Feature1Controller", "Index", "Feature1") 
+    are protected by Permissions, so try accessing them either of those when not logged in, 
+    or logged in as user @StartupExtensions.StaffUserEmail or @StartupExtensions.ManagerUserEmail.
+</p>
+
 
 <h3>List of users <small>so you can log in</small> </h3>
 <p>NOTE: The Email address is also the Password!</p>
@@ -39,6 +36,8 @@
         </tr>
     }
 </table>
+
+
 
 <h3>List of roles, with their permission<small>, but remember that the permissions are filtered by what modules the user is allowed to access</small></h3>
 <table class="table">

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using PermissionParts;
 
-namespace TestWebApp.AddedCode
+namespace TestWebApp.RolesToPermissions
 {
     //thanks to https://www.jerriepelser.com/blog/creating-dynamic-authorization-policies-aspnet-core/
 

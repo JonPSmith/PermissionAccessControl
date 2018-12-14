@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PermissionParts;
 using TestWebApp.Data;
 
-namespace TestWebApp.AddedCode
+namespace TestWebApp.RolesToPermissions
 {
     public static class StartupExtensions
     {

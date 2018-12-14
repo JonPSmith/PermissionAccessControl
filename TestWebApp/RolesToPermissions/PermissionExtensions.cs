@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using PermissionParts;
 
-namespace TestWebApp.AddedCode
+namespace TestWebApp.RolesToPermissions
 {
     public static class PermissionExtensions
     {

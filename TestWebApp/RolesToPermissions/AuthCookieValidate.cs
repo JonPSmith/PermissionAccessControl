@@ -10,9 +10,8 @@ using DataLayer.EfCode;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using PermissionParts;
-using TestWebApp.Data;
 
-namespace TestWebApp.AddedCode
+namespace TestWebApp.RolesToPermissions
 {
     public class AuthCookieValidate
     {

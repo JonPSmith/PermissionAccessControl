@@ -4,7 +4,7 @@
 using System;
 using Microsoft.AspNetCore.Authorization;
 
-namespace TestWebApp.RolesToPermissions
+namespace RolesToPermission
 {
     public class PermissionRequirement : IAuthorizationRequirement
     {

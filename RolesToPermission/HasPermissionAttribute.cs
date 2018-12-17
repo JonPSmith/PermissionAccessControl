@@ -5,7 +5,7 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using PermissionParts;
 
-namespace TestWebApp.RolesToPermissions
+namespace RolesToPermission
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, Inherited = false)]
     public class HasPermissionAttribute : AuthorizeAttribute

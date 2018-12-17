@@ -30,7 +30,7 @@ namespace TestWebApp.DisplayCode
             var result = new List<UserListDto>();
             foreach (var user in _applicationDbContext.Users)
             {
-                var thisUserModules = _extraAuthorizeDbContext.ModulesForUsers.Find(user.Email)?.AllowedPaidForModules ??
+                var thisUserModules = _extraAuthorizeDbContext.ModulesForUsers.Find(user.Id)?.AllowedPaidForModules ??
                                       PaidForModules.None;
                 result.Add(new UserListDto(user.UserName,
                     string.Join(", ", rolesWithUserIds.Where(x => x.UserId == user.Id).Select(x => x.Name)),

@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLayer.EfCode;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TestWebApp.Data;
 using TestWebApp.RolesToPermissions;
 
 namespace TestWebApp
@@ -24,8 +27,24 @@ namespace TestWebApp
                 .UseStartup<Startup>()
                 .Build();
 
-            webHost.SetupDatabases();
+            SetupDatabases(webHost);
             return webHost;
+        }
+
+        private static void SetupDatabases(IWebHost webHost)
+        {
+            using (var scope = webHost.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                using (var context = services.GetRequiredService<ExtraAuthorizeDbContext>())
+                {
+                    context.Database.EnsureCreated();
+                }
+                using (var context = services.GetRequiredService<ApplicationDbContext>())
+                {
+                    context.Database.EnsureCreated();
+                }
+            }
         }
     }
 }

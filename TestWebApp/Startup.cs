@@ -16,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using TestWebApp.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RolesToPermission;
+using StartupCode;
 using TestWebApp.RolesToPermissions;
 
 namespace TestWebApp
@@ -57,10 +59,10 @@ namespace TestWebApp
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
-            //We build the  AuthCookie's OnValidatePrincipal 
+            //We build the AuthCookie's OnValidatePrincipal 
             var sp = services.BuildServiceProvider();
-            var roleDbOptions = sp.GetRequiredService<DbContextOptions<ExtraAuthorizeDbContext>>();
-            var authCookieValidate = new AuthCookieValidate(roleDbOptions);
+            var extraAuthDbContextOptions = sp.GetRequiredService<DbContextOptions<ExtraAuthorizeDbContext>>();
+            var authCookieValidate = new AuthCookieValidate(new CalcAllowedPermissions(extraAuthDbContextOptions));
 
             //see https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-2.1#cookie-settings
             services.ConfigureApplicationCookie(options =>
@@ -106,7 +108,7 @@ namespace TestWebApp
             app.UseAuthentication();
 
             //The users can only be set up after app.UseAuthentication() is called
-            serviceProvider.SetupDefaultUsersAsync().Wait();
+            serviceProvider.AddUsersAndExtraAuthAsync().Wait();
 
             app.UseMvc(routes =>
             {

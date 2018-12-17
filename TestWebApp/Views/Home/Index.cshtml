@@ -1,4 +1,5 @@
-﻿@using TestWebApp.RolesToPermissions
+﻿@using StartupCode
+@using TestWebApp.RolesToPermissions
 @model TestWebApp.DisplayCode.HomePageDto
 @{
     ViewData["Title"] = "Home Page";
@@ -15,7 +16,7 @@
 <p>
     <strong>NOTE:</strong> the @Html.ActionLink("ColorController", "Index", "Color")  and the @Html.ActionLink("Feature1Controller", "Index", "Feature1") 
     are protected by Permissions, so try accessing them either of those when not logged in, 
-    or logged in as user @StartupExtensions.StaffUserEmail or @StartupExtensions.ManagerUserEmail.
+    or logged in as user Staff@g1.com or Manager@g1.com.
 </p>
 
 

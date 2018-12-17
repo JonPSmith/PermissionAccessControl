@@ -8,18 +8,18 @@ using PermissionParts;
 namespace DataLayer.EfClasses
 {
     /// <summary>
-    /// This holds what modules a user can access, using the user's email as the key
+    /// This holds what modules a user can access, using the user's identity key
     /// </summary>
     public class ModulesForUser
     {
-        public ModulesForUser(string userEmail, PaidForModules allowedPaidForModules)
+        public ModulesForUser(string userId, PaidForModules allowedPaidForModules)
         {
-            UserEmail = userEmail ?? throw new ArgumentNullException(nameof(userEmail));
+            UserId = userId ?? throw new ArgumentNullException(nameof(userId));
             AllowedPaidForModules = allowedPaidForModules;
         }
 
         [Key]
-        public string UserEmail { get; set; }
+        public string UserId { get; set; }
         public PaidForModules AllowedPaidForModules { get; set; }
     }
 }

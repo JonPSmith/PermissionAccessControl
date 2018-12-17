@@ -1,0 +1,20 @@
+[
+  {
+    "Email": "Staff@g1.com",
+    "RolesCommaDelimited": "Staff",
+    "ModulesCommaDelimited": "Feature1",
+    "DataInfo": {}
+  },
+  {
+    "Email": "Manager@g1.com",
+    "RolesCommaDelimited": "Manager",
+    "ModulesCommaDelimited": "",
+    "DataInfo": {}
+  },
+  {
+    "Email": "Admin@g1.com",
+    "RolesCommaDelimited": "Manager,Admin",
+    "ModulesCommaDelimited": "Feature1,Feature2",
+    "DataInfo": {}
+  }
+]

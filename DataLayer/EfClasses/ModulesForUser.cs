@@ -19,6 +19,7 @@ namespace DataLayer.EfClasses
         }
 
         [Key]
+        [MaxLength(450)] //Matches identity size
         public string UserId { get; set; }
         public PaidForModules AllowedPaidForModules { get; set; }
     }

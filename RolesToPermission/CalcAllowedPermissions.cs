@@ -43,7 +43,7 @@ namespace RolesToPermission
                     .SelectMany(x => x.PermissionsInRole)
                     .Distinct()
                     .ToListAsync();
-                //we get the modules this user is allows to see
+                //we get the modules this user is allowed to see
                 var userModules =
                     dbContext.ModulesForUsers.Find(user.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value)
                         ?.AllowedPaidForModules ?? PaidForModules.None;

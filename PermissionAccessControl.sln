@@ -16,9 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp", "TestWebApp\Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{DBA80257-4697-480E-85C6-87C23047E415}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RolesToPermission", "RolesToPermission\RolesToPermission.csproj", "{D75D71AF-EFEE-4C37-BD28-9BC11B2ADACA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RolesToPermission", "RolesToPermission\RolesToPermission.csproj", "{D75D71AF-EFEE-4C37-BD28-9BC11B2ADACA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartupCode", "StartupCode\StartupCode.csproj", "{7CE53160-EA4F-4395-90FC-C1A10290BD62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StartupCode", "StartupCode\StartupCode.csproj", "{7CE53160-EA4F-4395-90FC-C1A10290BD62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAuthWebApp", "DataAuthWebApp\DataAuthWebApp.csproj", "{09B56163-769A-4BEB-A3D0-A4BF41581125}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{7CE53160-EA4F-4395-90FC-C1A10290BD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CE53160-EA4F-4395-90FC-C1A10290BD62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CE53160-EA4F-4395-90FC-C1A10290BD62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09B56163-769A-4BEB-A3D0-A4BF41581125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09B56163-769A-4BEB-A3D0-A4BF41581125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09B56163-769A-4BEB-A3D0-A4BF41581125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09B56163-769A-4BEB-A3D0-A4BF41581125}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

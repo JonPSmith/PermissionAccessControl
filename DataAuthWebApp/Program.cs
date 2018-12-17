@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAuthWebApp.Data;
 using DataLayer.EfCode;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using TestWebApp.Data;
 
-namespace TestWebApp
+namespace DataAuthWebApp
 {
     public class Program
     {

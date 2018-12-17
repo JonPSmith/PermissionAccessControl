@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DataLayer.EfCode;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using TestWebApp.Data;
+using DataAuthWebApp.Data;
+using DataLayer.EfCode;
+using Microsoft.Data.Sqlite;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RolesToPermission;
 using StartupCode;
 
-namespace TestWebApp
+namespace DataAuthWebApp
 {
     public class Startup
     {
@@ -76,7 +75,7 @@ namespace TestWebApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
-        //ADDED - 
+        //ADDED
         private static SqliteConnection SetupSqliteInMemoryConnection()
         {
             var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = ":memory:" };

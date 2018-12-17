@@ -1,0 +1,17 @@
+[
+  {
+    "RoleName": "Staff",
+    "Description": "Staff can only read data",
+    "Permissions": ["ColorRead","Feature1Access"]
+  },
+  {
+    "RoleName": "Manager",
+    "Description": "Managers can read/write the data",
+    "Permissions": [ "ColorRead","ColorCreate","ColorDelete","ColorUpdate","Feature1Access" ]
+  },
+  {
+    "RoleName": "Admin",
+    "Description": "Admin can manage users, but not read data",
+    "Permissions": [ "UserRead,UserChange","Feature1Access","Feature2Access" ]
+  }
+]

@@ -3,16 +3,12 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using DataLayer.EfCode;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using PermissionParts;
 using RolesToPermission;
 
-namespace TestWebApp.RolesToPermissions
+namespace DataAuthWebApp
 {
     public class AuthCookieValidate
     {

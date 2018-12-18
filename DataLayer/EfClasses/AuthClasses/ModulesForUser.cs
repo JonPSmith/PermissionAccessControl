@@ -5,7 +5,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using PermissionParts;
 
-namespace DataLayer.EfClasses
+namespace DataLayer.EfClasses.AuthClasses
 {
     /// <summary>
     /// This holds what modules a user can access, using the user's identity key

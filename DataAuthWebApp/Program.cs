@@ -7,6 +7,7 @@ using DataAuthWebApp.Data;
 using DataLayer.EfCode;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -43,6 +44,10 @@ namespace DataAuthWebApp
                     context.Database.EnsureCreated();
                 }
                 using (var context = services.GetRequiredService<ExtraAuthorizeDbContext>())
+                {
+                    context.Database.EnsureCreated();
+                }
+                using (var context = services.GetRequiredService<BusinessDbContext>())
                 {
                     context.Database.EnsureCreated();
                 }

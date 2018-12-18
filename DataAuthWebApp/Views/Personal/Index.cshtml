@@ -1,0 +1,65 @@
+﻿@model DataLayer.EfClasses.BusinessClasses.PersonalData
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<div>
+    @if (@Model == null)
+    {
+        <h4>No Personal Data</h4>
+    }
+    else
+    {
+
+        <h4>PersonalData</h4>
+        <hr/>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.PersonalDataId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PersonalDataId)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SecretToYou)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SecretToYou)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedBy)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedBy)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedOn)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedOn)
+            </dd>
+        </dl>
+
+        <div>
+            @Html.ActionLink("Edit", "Edit") |
+            @Html.ActionLink("Delete", "Delete") |
+            <a asp-action="Index">Back to Index</a>
+            }
+        </div>
+    }
+</div>

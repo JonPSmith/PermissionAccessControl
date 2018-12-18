@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DataLayer.EfClasses;
+using DataLayer.EfClasses.AuthClasses;
 using DataLayer.EfCode;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

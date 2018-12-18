@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAuthorize;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -40,8 +41,10 @@ namespace DataAuthWebApp
             });
 
             //Have own database for roles to Permissions and Modules - uses in-memory database
-            var rolesConnection = SetupSqliteInMemoryConnection();
-            services.AddDbContext<ExtraAuthorizeDbContext>(options => options.UseSqlite(rolesConnection));
+            var authConnection = SetupSqliteInMemoryConnection();
+            services.AddDbContext<ExtraAuthorizeDbContext>(options => options.UseSqlite(authConnection));
+            var bizConnection = SetupSqliteInMemoryConnection();
+            services.AddDbContext<BusinessDbContext>(options => options.UseSqlite(bizConnection));
 
             //Swapped over to Sqlite in-memory database for identity database
             var identityConnection = SetupSqliteInMemoryConnection();
@@ -71,6 +74,9 @@ namespace DataAuthWebApp
             //Register the Permission policy handlers
             services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+
+            //This is needed by BusinessDbContext to get the userId from claims
+            services.AddScoped<IUserIdProvider, UserIdFromClaims>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

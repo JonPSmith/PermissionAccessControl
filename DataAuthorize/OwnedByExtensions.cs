@@ -6,22 +6,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAuthorize
 {
-    public static class WhoWhenExtensions
+    public static class OwnedByExtensions
     {
         /// <summary>
         /// This is called in the overridden SaveChanges in the application's DbContext
-        /// Its job is to call the LogChanges of any entities being added or updated that have the IWhoWhen interface
+        /// Its job is to call the SetOwnedBy on entities that have it and are being created
         /// </summary>
         /// <param name="context"></param>
         /// <param name="userId"></param>
-        public static void MarkWhoWhenEntities(this DbContext context, string userId)
+        public static void MarkCreatedItemAsOwnedBy(this DbContext context, string userId)
         {
             foreach (var entityEntry in context.ChangeTracker.Entries()
-                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified))
+                .Where(e => e.State == EntityState.Added))
             {
-                if (entityEntry.Entity is IWhoWhen whoWhenEntity)
+                if (entityEntry.Entity is IOwnedBy entityToMark)
                 {
-                    whoWhenEntity.LogChange(entityEntry.State == EntityState.Added, userId);
+                    entityToMark.SetOwnedBy(userId);
                 }
             }
         }

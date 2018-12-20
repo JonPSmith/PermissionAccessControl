@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using DataLayer.EfClasses.BusinessClasses;
 using DataLayer.EfCode;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +8,7 @@ namespace DataAuthWebApp.Controllers
 {
     public class PersonalController : Controller
     {
-        private BusinessDbContext _context;
+        private readonly BusinessDbContext _context;
 
         public PersonalController(BusinessDbContext context)
         {
@@ -41,7 +38,9 @@ namespace DataAuthWebApp.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                var entity = new PersonalData {SecretToYou = collection[nameof(PersonalData.SecretToYou)]};
+                _context.Add(entity);
+                _context.SaveChanges();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -90,7 +89,7 @@ namespace DataAuthWebApp.Controllers
                 _context.SaveChanges();
             }
 
-            return RedirectToAction(nameof(Create));
+            return RedirectToAction(nameof(Index));
         }
 
 

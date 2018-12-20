@@ -7,15 +7,23 @@
 <h2>Index</h2>
 
 <div>
-    @if (@Model == null)
+    @if (User.Identity.IsAuthenticated)
     {
-        <h4>No Personal Data</h4>
+        @Html.ActionLink("Create", "Create")
     }
     else
     {
-
+        <h4 class="text-warning">You need to be logged in to access personal data</h4>
+        return;
+    }
+    @if (@Model == null)
+    {
+        <h4>You haven't created any personal data yet.</h4>
+    }
+    else
+    {
         <h4>PersonalData</h4>
-        <hr/>
+        <hr />
         <dl class="dl-horizontal">
             <dt>
                 @Html.DisplayNameFor(model => model.PersonalDataId)
@@ -30,28 +38,10 @@
                 @Html.DisplayFor(model => model.SecretToYou)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.CreatedBy)
+                @Html.DisplayNameFor(model => model.OwnedBy)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.CreatedBy)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.CreatedOn)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.CreatedOn)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.UpdatedBy)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.UpdatedBy)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.UpdatedOn)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.UpdatedOn)
+                @Html.DisplayFor(model => model.OwnedBy)
             </dd>
         </dl>
 
@@ -59,7 +49,6 @@
             @Html.ActionLink("Edit", "Edit") |
             @Html.ActionLink("Delete", "Delete") |
             <a asp-action="Index">Back to Index</a>
-            }
         </div>
     }
 </div>

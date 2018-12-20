@@ -5,7 +5,7 @@ using DataAuthorize;
 
 namespace DataLayer.EfClasses.BusinessClasses
 {
-    public class PersonalData : WhoWhen
+    public class PersonalData : OwnedByBase
     {
         public int PersonalDataId { get; set; }
 

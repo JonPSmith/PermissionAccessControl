@@ -7,13 +7,17 @@ using Microsoft.AspNetCore.Http;
 
 namespace DataAuthorize
 {
-    public class UserIdFromClaims : IUserIdProvider
+    public class GetClaimsFromUser : IGetClaimsProvider
     {
-        public UserIdFromClaims(IHttpContextAccessor accessor)
-        {
-            UserId = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-        }
+        public const string ShopIdClaimName = "ShopId";
 
         public string UserId { get; private set; }
+        public string ShopKey { get; private set; }
+
+        public GetClaimsFromUser(IHttpContextAccessor accessor)
+        {
+            UserId = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            ShopKey = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ShopIdClaimName)?.Value;
+        }
     }
 }

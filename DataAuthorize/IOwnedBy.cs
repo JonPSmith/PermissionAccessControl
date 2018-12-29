@@ -5,6 +5,6 @@ namespace DataAuthorize
     public interface IOwnedBy
     {
         string OwnedBy { get; }
-        void SetOwnedBy(string userId);
+        void SetOwnedBy(string protectKey);
     }
 }

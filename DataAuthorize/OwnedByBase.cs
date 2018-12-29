@@ -12,9 +12,9 @@ namespace DataAuthorize
         [MaxLength(40)] //A guid string is 36 characters long
         public string OwnedBy { get; private set; }
 
-        public void SetOwnedBy(string userId)
+        public void SetOwnedBy(string protectKey)
         {
-            OwnedBy = userId;
+            OwnedBy = protectKey;
         }
     }
 }

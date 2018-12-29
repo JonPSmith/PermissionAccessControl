@@ -1,11 +1,13 @@
 ﻿// Copyright (c) 2018 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DataAuthorize;
 using DataLayer.EfClasses.BusinessClasses;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DataLayer.EfCode
 {
@@ -36,6 +38,11 @@ namespace DataLayer.EfCode
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            foreach (var entityOwnedBy in modelBuilder.Model.GetEntityTypes().Where(x => x.ClrType.GetInterface(nameof(IOwnedBy)) != null))
+            {
+                modelBuilder.Entity(entityOwnedBy.ClrType).HasIndex(nameof(IOwnedBy.OwnedBy));
+            }
+
             modelBuilder.Entity<PersonalData>().HasQueryFilter(x => x.OwnedBy == _userId);
         }
     }

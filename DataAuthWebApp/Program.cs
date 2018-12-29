@@ -47,7 +47,7 @@ namespace DataAuthWebApp
                 {
                     context.Database.EnsureCreated();
                 }
-                using (var context = services.GetRequiredService<BusinessDbContext>())
+                using (var context = services.GetRequiredService<PersonalDbContext>())
                 {
                     context.Database.EnsureCreated();
                 }

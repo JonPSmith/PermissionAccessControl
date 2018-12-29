@@ -11,13 +11,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DataLayer.EfCode
 {
-    public class BusinessDbContext : DbContext
+    public class PersonalDbContext : DbContext
     {
         private readonly string _userId;
 
         public DbSet<PersonalData> PersonalDatas { get; set; }
 
-        public BusinessDbContext(DbContextOptions<BusinessDbContext> options, IUserIdProvider userData)
+        public PersonalDbContext(DbContextOptions<PersonalDbContext> options, IUserIdProvider userData)
             : base(options)
         {
             _userId = userData.UserId;

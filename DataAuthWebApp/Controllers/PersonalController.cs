@@ -8,9 +8,9 @@ namespace DataAuthWebApp.Controllers
 {
     public class PersonalController : Controller
     {
-        private readonly BusinessDbContext _context;
+        private readonly PersonalDbContext _context;
 
-        public PersonalController(BusinessDbContext context)
+        public PersonalController(PersonalDbContext context)
         {
             _context = context;
         }

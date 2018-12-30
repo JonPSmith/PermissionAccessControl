@@ -22,6 +22,6 @@ namespace StartupCode
         /// <summary>
         /// Various Data authorization data
         /// </summary>
-        public Dictionary<string,string> DataInfo { get; set; }
+        public string ShopName { get; set; }
     }
 }

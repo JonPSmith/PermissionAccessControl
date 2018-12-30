@@ -1,20 +1,20 @@
 [
   {
-    "Email": "Staff@g1.com",
+    "Email": "Dress1@g.com",
     "RolesCommaDelimited": "Staff",
-    "ModulesCommaDelimited": "Feature1",
-    "DataInfo": {}
-  },
-  {
-    "Email": "Manager@g1.com",
-    "RolesCommaDelimited": "Manager",
     "ModulesCommaDelimited": "",
-    "DataInfo": {}
+    "ShopName": "DressForU"
   },
   {
-    "Email": "Admin@g1.com",
-    "RolesCommaDelimited": "Manager,Admin",
-    "ModulesCommaDelimited": "Feature1,Feature2",
-    "DataInfo": {}
+    "Email": "Dress2@g.com",
+    "RolesCommaDelimited": "Staff",
+    "ModulesCommaDelimited": "",
+    "ShopName": "DressForU"
+  },
+  {
+    "Email": "Bottom1@g.com",
+    "RolesCommaDelimited": "Staff",
+    "ModulesCommaDelimited": "",
+    "ShopName": "BottomShop"
   }
 ]

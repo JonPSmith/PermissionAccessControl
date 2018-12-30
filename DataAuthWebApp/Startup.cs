@@ -43,8 +43,10 @@ namespace DataAuthWebApp
             //Have own database for roles to Permissions and Modules - uses in-memory database
             var authConnection = SetupSqliteInMemoryConnection();
             services.AddDbContext<ExtraAuthorizeDbContext>(options => options.UseSqlite(authConnection));
-            var bizConnection = SetupSqliteInMemoryConnection();
-            services.AddDbContext<PersonalDbContext>(options => options.UseSqlite(bizConnection));
+            var personalConnection = SetupSqliteInMemoryConnection();
+            services.AddDbContext<PersonalDbContext>(options => options.UseSqlite(personalConnection));
+            var multiConnection = SetupSqliteInMemoryConnection();
+            services.AddDbContext<MultiTenantDbContext>(options => options.UseSqlite(multiConnection));
 
             //Swapped over to Sqlite in-memory database for identity database
             var identityConnection = SetupSqliteInMemoryConnection();
@@ -76,7 +78,7 @@ namespace DataAuthWebApp
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
 
             //This is needed by PersonalDbContext to get the userId from claims
-            services.AddScoped<IUserIdProvider, UserIdFromClaims>();
+            services.AddScoped<IGetClaimsProvider, GetClaimsFromUser>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

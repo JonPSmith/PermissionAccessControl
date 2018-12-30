@@ -25,5 +25,18 @@ namespace DataAuthorize
                 }
             }
         }
+
+
+        public static void MarkCreatedItemWithShopKey(this DbContext context, int shopKey)
+        {
+            foreach (var entityEntry in context.ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added))
+            {
+                if (entityEntry.Entity is IShopKey entityToMark)
+                {
+                    entityToMark.SetShopKey(shopKey);
+                }
+            }
+        }
     }
 }

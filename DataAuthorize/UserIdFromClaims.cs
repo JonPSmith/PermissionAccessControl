@@ -12,12 +12,18 @@ namespace DataAuthorize
         public const string ShopIdClaimName = "ShopId";
 
         public string UserId { get; private set; }
-        public string ShopKey { get; private set; }
+        public int ShopKey { get; private set; }
 
         public GetClaimsFromUser(IHttpContextAccessor accessor)
         {
             UserId = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            ShopKey = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ShopIdClaimName)?.Value;
+            var shopKeyString = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ShopIdClaimName)?.Value;
+
+            if (shopKeyString != null)
+            {
+                int.TryParse(shopKeyString, out var shopKey);
+                ShopKey = shopKey;
+            }
         }
     }
 }

@@ -3,10 +3,9 @@
 
 namespace DataAuthorize
 {
-    public interface IGetClaimsProvider
+    public interface IShopKey
     {
-        string UserId { get; }
-
         int ShopKey { get; }
+        void SetShopKey(int shopKey);
     }
 }

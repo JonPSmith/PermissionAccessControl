@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using DataLayer.EfClasses;
 using DataLayer.EfClasses.AuthClasses;
+using DataLayer.EfClasses.MultiTenantClasses;
 using DataLayer.EfCode;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -27,16 +29,15 @@ namespace StartupCode
         {
             using (var scope = serviceProvider.CreateScope())
             {
-
                 var services = scope.ServiceProvider;
                 var env = services.GetRequiredService<IHostingEnvironment>();
                 var pathToUserData = Path.GetFullPath(Path.Combine(env.WebRootPath, SeedDataDir, UserInfoJsonFilename));
-                var userInfo = JsonConvert.DeserializeObject<List<UserInfoJson>>(File.ReadAllText(pathToUserData));
+                var userInfos = JsonConvert.DeserializeObject<List<UserInfoJson>>(File.ReadAllText(pathToUserData));
 
                 var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                var users = await Task.WhenAll(userInfo.Select(async x => await AddUserWithRoles(x, userManager, roleManager)));
+                var users = await Task.WhenAll(userInfos.Select(async x => await AddUserWithRoles(x, userManager, roleManager)));
 
                 var pathToRolePermissionData = Path.GetFullPath(Path.Combine(env.WebRootPath, SeedDataDir, RoleToPermissionsFilename));
                 var rolesToPermissions = JsonConvert.DeserializeObject<List<RoleToPermissions>>(File.ReadAllText(pathToRolePermissionData));
@@ -44,14 +45,55 @@ namespace StartupCode
                 using (var context = services.GetRequiredService<ExtraAuthorizeDbContext>())
                 {
                     context.AddRange(rolesToPermissions);
-                    context.AddRange(userInfo.BuildModulesForUsers(users));
+                    context.AddRange(userInfos.BuildModulesForUsers(users));
                     context.SaveChanges();
                 }
+
+                if (userInfos.Any(x => x.ShopName != null))
+                    using (var context = services.GetRequiredService<MultiTenantDbContext>())
+                    {
+                        var shops = context.SetupMultiTenantUsers(userInfos, users);
+                        context.SaveChanges();
+                        context.SetupStockInShops(shops);
+                        context.SaveChanges();
+                    }
             }
         }
 
         //---------------------------------------------------------------------------
         //private methods
+
+        private static IEnumerable<Shop> SetupMultiTenantUsers(this MultiTenantDbContext context, List<UserInfoJson> userInfos,
+            IdentityUser[] users)
+        {
+            var shopsDict = new Dictionary<string,Shop>();
+            foreach (var userInfo in userInfos)
+            {
+                if (userInfo.ShopName != null)
+                {
+                    if (!shopsDict.ContainsKey(userInfo.ShopName))
+                    {
+                        shopsDict[userInfo.ShopName] = new Shop { Name = userInfo.ShopName }; ;
+                    }
+
+                    var mUser = new MultiTenantUser
+                        {UserId = users.Single(x => x.Email == userInfo.Email).Id, WorksAt = shopsDict[userInfo.ShopName] };
+                    context.Add(mUser);
+                }
+            }
+            return shopsDict.Values;
+        }
+
+        private static void SetupStockInShops(this MultiTenantDbContext context, IEnumerable<Shop> shops)
+        {
+            var i = 1;
+            foreach (var shop in shops.ToList())
+            {
+                var stock = new StockInfo {Name = $"Shop{i++}Stuff", NumInStock = 10};
+                stock.SetShopKey(shop.ShopKey);
+                context.Add(stock);
+            }
+        }
 
         private static IEnumerable<ModulesForUser> BuildModulesForUsers(this List<UserInfoJson> userInfo,
             IdentityUser[] users)

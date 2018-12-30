@@ -91,8 +91,10 @@ namespace StartupCode
             var i = 1;
             foreach (var shop in shops)
             {
-                var stock = new StockInfo {Name = $"Shop{i++}Stuff", NumInStock = 10, AtShop = shop};
-                context.Add(stock);
+                var stock1 = new StockInfo {Name = $"{shop.Name} nice stuff", NumInStock = 10, AtShop = shop};
+                var stock2 = new StockInfo { Name = $"{shop.Name} other stuff", NumInStock = 22, AtShop = shop };
+                var stock3 = new StockInfo { Name = $"{shop.Name} thingy", NumInStock = 3, AtShop = shop };
+                context.AddRange(stock1, stock2, stock3);
             }
         }
 

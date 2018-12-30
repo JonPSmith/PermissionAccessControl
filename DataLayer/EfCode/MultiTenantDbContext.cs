@@ -42,8 +42,6 @@ namespace DataLayer.EfCode
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Shop>().HasKey(x => x.ShopKey);
-
             modelBuilder.Entity<MultiTenantUser>().HasQueryFilter(x => x.ShopKey == _shopKey);
             modelBuilder.Entity<Shop>().HasQueryFilter(x => x.ShopKey == _shopKey);
             modelBuilder.Entity<StockInfo>().HasQueryFilter(x => x.ShopKey == _shopKey);

@@ -29,6 +29,10 @@ namespace DataAuthorize
 
         public static void MarkCreatedItemWithShopKey(this DbContext context, int shopKey)
         {
+            //At startup shopKey will be zero, so ignore the setting of the ShopKey
+            //This allows my seeding code to work
+            if (shopKey == 0) return;
+
             foreach (var entityEntry in context.ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Added))
             {

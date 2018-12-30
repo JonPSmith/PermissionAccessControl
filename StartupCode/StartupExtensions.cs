@@ -52,6 +52,8 @@ namespace StartupCode
                 if (userInfos.Any(x => x.ShopName != null))
                     using (var context = services.GetRequiredService<MultiTenantDbContext>())
                     {
+                        context.Database.EnsureCreated();
+
                         var shops = context.SetupMultiTenantUsers(userInfos, users);
                         context.SaveChanges();
                         context.SetupStockInShops(shops);
@@ -73,7 +75,7 @@ namespace StartupCode
                 {
                     if (!shopsDict.ContainsKey(userInfo.ShopName))
                     {
-                        shopsDict[userInfo.ShopName] = new Shop { Name = userInfo.ShopName }; ;
+                        shopsDict[userInfo.ShopName] = new Shop { Name = userInfo.ShopName };
                     }
 
                     var mUser = new MultiTenantUser
@@ -87,10 +89,9 @@ namespace StartupCode
         private static void SetupStockInShops(this MultiTenantDbContext context, IEnumerable<Shop> shops)
         {
             var i = 1;
-            foreach (var shop in shops.ToList())
+            foreach (var shop in shops)
             {
-                var stock = new StockInfo {Name = $"Shop{i++}Stuff", NumInStock = 10};
-                stock.SetShopKey(shop.ShopKey);
+                var stock = new StockInfo {Name = $"Shop{i++}Stuff", NumInStock = 10, AtShop = shop};
                 context.Add(stock);
             }
         }

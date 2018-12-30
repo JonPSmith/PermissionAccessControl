@@ -1,0 +1,22 @@
+﻿@model List<DataAuthWebApp.DisplayCode.UserListDto>
+@{
+    ViewData["Title"] = "All users";
+}
+
+<h3>List of users</h3>
+<table class="table">
+    <tr>
+        <th>User Email</th>
+        <th>Roles</th>
+        <th>Works at shop</th>
+    </tr>
+    @foreach (var user in @Model)
+    {
+    <tr>
+        <td>@user.Email</td>
+        <td>@user.RoleNames</td>
+        <td>@user.ShopName</td>
+    </tr>
+    }
+</table>
+

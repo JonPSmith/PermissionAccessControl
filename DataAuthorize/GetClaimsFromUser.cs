@@ -9,7 +9,7 @@ namespace DataAuthorize
 {
     public class GetClaimsFromUser : IGetClaimsProvider
     {
-        public const string ShopIdClaimName = "ShopId";
+        public const string ShopKeyClaimName = "ShopId";
 
         public string UserId { get; private set; }
         public int ShopKey { get; private set; }
@@ -17,7 +17,7 @@ namespace DataAuthorize
         public GetClaimsFromUser(IHttpContextAccessor accessor)
         {
             UserId = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var shopKeyString = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ShopIdClaimName)?.Value;
+            var shopKeyString = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ShopKeyClaimName)?.Value;
 
             if (shopKeyString != null)
             {

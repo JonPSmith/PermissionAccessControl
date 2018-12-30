@@ -22,7 +22,7 @@ namespace DataLayer.EfClasses.MultiTenantClasses
         //---------------------------------------------
         //relationships
 
-        [ForeignKey(nameof(ShopKeyBase.ShopKey))]
+        [ForeignKey(nameof(ShopKey))]
         public Shop WorksAt { get; set; }
     }
 }

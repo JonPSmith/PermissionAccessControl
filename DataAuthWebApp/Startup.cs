@@ -64,8 +64,10 @@ namespace DataAuthWebApp
 
             //We build the AuthCookie's OnValidatePrincipal 
             var sp = services.BuildServiceProvider();
+            var multiTenantDbContextOptions = sp.GetRequiredService<DbContextOptions<MultiTenantDbContext>>();
             var extraAuthDbContextOptions = sp.GetRequiredService<DbContextOptions<ExtraAuthorizeDbContext>>();
-            var authCookieValidate = new AuthCookieValidate(new CalcAllowedPermissions(extraAuthDbContextOptions));
+            var authCookieValidate = new DataAndAuthCookieValidate(multiTenantDbContextOptions,
+                new CalcAllowedPermissions(extraAuthDbContextOptions));
 
             //see https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-2.1#cookie-settings
             services.ConfigureApplicationCookie(options =>

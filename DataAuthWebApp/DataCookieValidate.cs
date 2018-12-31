@@ -14,15 +14,13 @@ using RolesToPermission;
 
 namespace DataAuthWebApp
 {
-    public class DataAndAuthCookieValidate
+    public class DataCookieValidate
     {
         private readonly DbContextOptions<MultiTenantDbContext> _multiTenantOptions;
-        private readonly CalcAllowedPermissions _rtoPCalcer;
 
-        public DataAndAuthCookieValidate(DbContextOptions<MultiTenantDbContext> multiTenantOptions, CalcAllowedPermissions rtoPCalcer)
+        public DataCookieValidate(DbContextOptions<MultiTenantDbContext> multiTenantOptions)
         {
             _multiTenantOptions = multiTenantOptions;
-            _rtoPCalcer = rtoPCalcer;
         }
 
         public async Task ValidateAsync(CookieValidatePrincipalContext context)
@@ -43,10 +41,6 @@ namespace DataAuthWebApp
                     throw new InvalidOperationException($"The user {context.Principal.Claims.Single(x => x.Type == ClaimTypes.Name).Value} was not linked to a shop.");
                 claims.Add(new Claim(GetClaimsFromUser.ShopKeyClaimName, mTUser.ShopKey.ToString()));
             }
-
-            //Now calculate the Permissions Claim value and add it
-            claims.Add(new Claim(PermissionConstants.PackedPermissionClaimType,
-                await _rtoPCalcer.CalcPermissionsForUser(context.Principal)));
 
             //Build a new ClaimsPrincipal and use it to replace the current ClaimsPrincipal
             var identity = new ClaimsIdentity(claims, "Cookie");

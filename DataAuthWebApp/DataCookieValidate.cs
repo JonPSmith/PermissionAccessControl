@@ -28,7 +28,7 @@ namespace DataAuthWebApp
             if (context.Principal.Claims.Any(x => x.Type == GetClaimsFromUser.ShopKeyClaimName))
                 return;
 
-            //No ShopKey in the claims, so we need to add it. This is only happen once after the user has logged in
+            //No ShopKey in the claims, so we need to add it. This is only happens once after the user has logged in
             var claims = new List<Claim>();
             claims.AddRange(context.Principal.Claims); //Copy over existing claims
 
@@ -36,7 +36,7 @@ namespace DataAuthWebApp
             using (var multiContext = new MultiTenantDbContext(_multiTenantOptions, new DummyClaimsFromUser()))
             {
                 var userId = context.Principal.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                var mTUser = multiContext.TenantUsers.IgnoreQueryFilters().SingleOrDefault(x => x.UserId == userId);
+                var mTUser = multiContext.MultiTenantUsers.IgnoreQueryFilters().SingleOrDefault(x => x.UserId == userId);
                 if (mTUser == null)
                     throw new InvalidOperationException($"The user {context.Principal.Claims.Single(x => x.Type == ClaimTypes.Name).Value} was not linked to a shop.");
                 claims.Add(new Claim(GetClaimsFromUser.ShopKeyClaimName, mTUser.ShopKey.ToString()));

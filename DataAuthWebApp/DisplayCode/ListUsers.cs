@@ -31,7 +31,7 @@ namespace DataAuthWebApp.DisplayCode
             var result = new List<UserListDto>();
             foreach (var user in _applicationDbContext.Users)
             {
-                var thisUserShop = _multiTenantDbContext.TenantUsers.IgnoreQueryFilters()
+                var thisUserShop = _multiTenantDbContext.MultiTenantUsers.IgnoreQueryFilters()
                     .Include(x => x.WorksAt)
                     .SingleOrDefault(x => x.UserId == user.Id);
                 result.Add(new UserListDto(user.UserName,

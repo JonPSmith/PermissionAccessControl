@@ -18,7 +18,6 @@ namespace DataAuthorize
         {
             UserId = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
             var shopKeyString = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == ShopKeyClaimName)?.Value;
-
             if (shopKeyString != null)
             {
                 int.TryParse(shopKeyString, out var shopKey);

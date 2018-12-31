@@ -1,15 +1,11 @@
 ﻿// Copyright (c) 2018 Jon P Smith, GitHub: JonPSmith, web: http://www.thereformedprogrammer.net/
 // Licensed under MIT license. See License.txt in the project root for license information.
 
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DataAuthorize;
-using DataLayer.EfClasses.AuthClasses;
-using DataLayer.EfClasses.BusinessClasses;
 using DataLayer.EfClasses.MultiTenantClasses;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DataLayer.EfCode
 {
@@ -17,7 +13,7 @@ namespace DataLayer.EfCode
     {
         private readonly int _shopKey;
 
-        public DbSet<MultiTenantUser> TenantUsers { get; set; }
+        public DbSet<MultiTenantUser> MultiTenantUsers { get; set; }
         public DbSet<Shop> Shops { get; set; }
         public DbSet<StockInfo> CurrentStock { get; set; }
 

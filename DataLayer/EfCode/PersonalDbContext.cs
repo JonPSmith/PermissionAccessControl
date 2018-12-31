@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using DataAuthorize;
 using DataLayer.EfClasses.BusinessClasses;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DataLayer.EfCode
 {

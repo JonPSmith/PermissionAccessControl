@@ -1,20 +1,32 @@
 [
   {
-    "Email": "Dress1@g.com",
-    "RolesCommaDelimited": "Staff",
+    "Email": "D4u@g1.com",
+    "RolesCommaDelimited": "Dummy",
     "ModulesCommaDelimited": "",
-    "ShopName": "DressForU"
+    "ShopNames": "Dress4U"
   },
   {
-    "Email": "Dress2@g.com",
-    "RolesCommaDelimited": "Staff",
+    "Email": "S4u@g1.com",
+    "RolesCommaDelimited": "Dummy",
     "ModulesCommaDelimited": "",
-    "ShopName": "DressForU"
+    "ShopNames": "Shirt4U"
   },
   {
-    "Email": "Bottom1@g.com",
-    "RolesCommaDelimited": "Staff",
+    "Email": "T4u@g1.com",
+    "RolesCommaDelimited": "Dummy",
     "ModulesCommaDelimited": "",
-    "ShopName": "BottomShop"
+    "ShopNames": "Ties4U"
+  },
+  {
+    "Email": "4uMan@g1.com",
+    "RolesCommaDelimited": "Dummy",
+    "ModulesCommaDelimited": "",
+    "ShopNames": "Dress4U,Shirt4U,Ties4U"
+  },
+  {
+    "Email": "Power@g1.com",
+    "RolesCommaDelimited": "Dummy",
+    "ModulesCommaDelimited": "",
+    "ShopNames": "DressPower"
   }
 ]

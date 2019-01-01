@@ -22,6 +22,6 @@ namespace StartupCode
         /// <summary>
         /// Various Data authorization data
         /// </summary>
-        public string ShopName { get; set; }
+        public string ShopNames { get; set; }
     }
 }

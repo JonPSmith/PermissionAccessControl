@@ -8,14 +8,16 @@
     <tr>
         <th>User Email</th>
         <th>Roles</th>
-        <th>Works at shop</th>
+        <th>District Manager?</th>
+        <th>Linked to shop(s)</th>
     </tr>
     @foreach (var user in @Model)
     {
     <tr>
         <td>@user.Email</td>
         <td>@user.RoleNames</td>
-        <td>@user.ShopName</td>
+        <td>@user.IsDistrictManager</td>
+        <td>@user.ShopNames</td>
     </tr>
     }
 </table>

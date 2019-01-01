@@ -7,16 +7,18 @@ namespace DataAuthWebApp.DisplayCode
 {
     public class UserListDto
     {
-        public UserListDto(string email, string roleNames, string shopName)
+        public UserListDto(string email, string roleNames, bool isDistrictManager, string shopNames)
         {
             Email = email ?? throw new ArgumentNullException(nameof(email));
             RoleNames = roleNames ?? throw new ArgumentNullException(nameof(roleNames));
-            ShopName = shopName ?? throw new ArgumentNullException(nameof(shopName));
+            IsDistrictManager = isDistrictManager;
+            ShopNames = shopNames ?? throw new ArgumentNullException(nameof(shopNames));
         }
 
         public string Email { get; set; }
         public string RoleNames { get; set; }
-        public string ShopName { get; set; }
+        public bool IsDistrictManager { get; set; }
+        public string ShopNames { get; set; }
 
 
     }

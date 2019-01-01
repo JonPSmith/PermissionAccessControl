@@ -2,6 +2,7 @@
 // Licensed under MIT license. See License.txt in the project root for license information.
 
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using DataAuthorize;
 
 namespace DataLayer.EfClasses.MultiTenantClasses
@@ -17,6 +18,18 @@ namespace DataLayer.EfClasses.MultiTenantClasses
 
         public string Name { get; set; }
 
+        [MaxLength(40)]
+        public string UserId { get; set; }
 
+        //-------------------------------------------
+        //relationships
+
+        [ForeignKey(nameof(UserId))]
+        public MultiTenantUser DistrictManager { get; set; }
+
+        public override string ToString()
+        {
+            return $"{nameof(ShopKey)}: {ShopKey}, {nameof(Name)}: {Name}, {nameof(UserId)}: {UserId}";
+        }
     }
 }

@@ -49,7 +49,7 @@ namespace StartupCode
                     context.SaveChanges();
                 }
 
-                if (userInfos.Any(x => x.ShopName != null))
+                if (userInfos.Any(x => x.ShopNames != null))
                     using (var context = services.GetRequiredService<MultiTenantDbContext>())
                     {
                         context.Database.EnsureCreated();
@@ -69,17 +69,37 @@ namespace StartupCode
             IdentityUser[] users)
         {
             var shopsDict = new Dictionary<string,Shop>();
-            foreach (var userInfo in userInfos)
+
+            IEnumerable<Shop> AddOrFindShops(string[] shopNames)
             {
-                if (userInfo.ShopName != null)
+                foreach (var shopName in shopNames)
                 {
-                    if (!shopsDict.ContainsKey(userInfo.ShopName))
+                    if (!shopsDict.ContainsKey(shopName))
                     {
-                        shopsDict[userInfo.ShopName] = new Shop { Name = userInfo.ShopName };
+                        var shop = new Shop { Name = shopName };
+                        context.Add(shop);
+                        context.SaveChanges();
+                        shopsDict[shopName] = shop;
                     }
 
-                    var mUser = new MultiTenantUser
-                        {UserId = users.Single(x => x.Email == userInfo.Email).Id, WorksAt = shopsDict[userInfo.ShopName] };
+                    yield return shopsDict[shopName];
+                }
+            }
+
+            foreach (var userInfo in userInfos)
+            {
+                if (userInfo.ShopNames != null)
+                {
+                    var shops = AddOrFindShops(userInfo.ShopNames.Split(',')).ToList();
+                    var mUser = shops.Count == 1
+                        ? new MultiTenantUser
+                            {UserId = users.Single(x => x.Email == userInfo.Email).Id, ShopKey = shops.Single().ShopKey }
+                        : new MultiTenantUser
+                        {
+                            UserId = users.Single(x => x.Email == userInfo.Email).Id,
+                            IsDistrictManager = true,
+                            AccessTo = shops
+                        };
                     context.Add(mUser);
                 }
             }

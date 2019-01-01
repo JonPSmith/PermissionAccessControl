@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DataAuthWebApp.Data;
+using DataLayer.EfClasses.MultiTenantClasses;
 using DataLayer.EfCode;
 using Microsoft.EntityFrameworkCore;
 using PermissionParts;
@@ -31,13 +32,15 @@ namespace DataAuthWebApp.DisplayCode
             var result = new List<UserListDto>();
             foreach (var user in _applicationDbContext.Users)
             {
-                var thisUserShop = _multiTenantDbContext.MultiTenantUsers.IgnoreQueryFilters()
-                    .Include(x => x.WorksAt)
-                    .SingleOrDefault(x => x.UserId == user.Id);
+                var mUser = _multiTenantDbContext.MultiTenantUsers.IgnoreQueryFilters()
+                    .Include(x => x.AccessTo)
+                    .Single(x => x.UserId == user.Id);
+                var shopNamesLinked = mUser.IsDistrictManager
+                    ? string.Join(", ", mUser.AccessTo.Select(x => x.Name))
+                    : _multiTenantDbContext.Shops.IgnoreQueryFilters().Single(x => x.ShopKey == mUser.ShopKey).Name;
                 result.Add(new UserListDto(user.UserName,
                     string.Join(", ", rolesWithUserIds.Where(x => x.UserId == user.Id).Select(x => x.Name)),
-                    thisUserShop?.WorksAt.Name
-                ));
+                    mUser.IsDistrictManager, shopNamesLinked));
             }
 
             return result;

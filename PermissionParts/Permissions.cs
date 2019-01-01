@@ -47,5 +47,8 @@ namespace PermissionParts
         [Obsolete]
         [Display(GroupName = "Old", Name = "Not used", Description = "example of old permission")]
         OldPermissionNotUsed = 0x40,
+
+        [Display(GroupName = "DataAuth", Name = "Not used", Description = "Permissions aren't used in DataAuthWebApp")]
+        DataAuthPermission
     }
 }

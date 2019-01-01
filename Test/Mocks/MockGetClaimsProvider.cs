@@ -12,7 +12,7 @@ namespace Test.Mocks
         {
             UserId = userId ?? throw new ArgumentNullException(nameof(userId));
             ShopKey = shopKey;
-            DistrictManagerId = districtManagerId ?? throw new ArgumentNullException(nameof(districtManagerId));
+            DistrictManagerId = districtManagerId;
         }
 
         public string UserId { get; }

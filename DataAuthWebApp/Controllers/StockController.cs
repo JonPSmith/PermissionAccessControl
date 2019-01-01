@@ -10,16 +10,14 @@ namespace DataAuthWebApp.Controllers
         private readonly MultiTenantDbContext _context;
 
         public StockController(MultiTenantDbContext context)
-        {
-            _context = context;
+        {_context = context;
         }
 
 
         // GET: Stock
         public ActionResult Index()
         {
-            //var all = _context.CurrentStock.IgnoreQueryFilters().ToList();
-            var stock = _context.CurrentStock.ToList();
+            var stock = _context.CurrentStock.Include(x => x.AtShop).ToList();
             return View(stock);
         }
 

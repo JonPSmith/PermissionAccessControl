@@ -18,6 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.NumInStock)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AtShop)
+            </th>
             @*<th></th>*@
         </tr>
     </thead>
@@ -29,6 +32,10 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.NumInStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AtShop.Name)
+            </td>
             @*<td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.StockInfoId }) |
                 @Html.ActionLink("Details", "Details", new { id=item.StockInfoId }) |

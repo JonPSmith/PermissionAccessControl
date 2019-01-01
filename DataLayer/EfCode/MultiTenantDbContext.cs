@@ -40,12 +40,13 @@ namespace DataLayer.EfCode
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MultiTenantUser>().HasMany<Shop>(x => x.AccessTo).WithOne(x => x.DistrictManager);
+            //modelBuilder.Entity<MultiTenantUser>().HasMany(x => x.AccessTo).WithOne(x => x.DistrictManager);
 
             modelBuilder.Entity<MultiTenantUser>().HasQueryFilter(x => x.ShopKey == ShopKey);
-            modelBuilder.Entity<Shop>().HasQueryFilter(x => x.ShopKey == ShopKey);
-
             //Altered query filter to handle hierarchical access
+            modelBuilder.Entity<Shop>().HasQueryFilter(x => DistrictManagerId == null
+                ? x.ShopKey == ShopKey
+                : x.DistrictManagerId == DistrictManagerId);
             modelBuilder.Entity<StockInfo>().HasQueryFilter(x => DistrictManagerId == null 
                 ? x.ShopKey == ShopKey
                 : x.DistrictManagerId == DistrictManagerId);

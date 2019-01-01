@@ -19,17 +19,17 @@ namespace DataLayer.EfClasses.MultiTenantClasses
         public string Name { get; set; }
 
         [MaxLength(40)]
-        public string UserId { get; set; }
+        public string DistrictManagerId { get; set; }
 
         //-------------------------------------------
         //relationships
 
-        [ForeignKey(nameof(UserId))]
+        [ForeignKey(nameof(DistrictManagerId))]
         public MultiTenantUser DistrictManager { get; set; }
 
         public override string ToString()
         {
-            return $"{nameof(ShopKey)}: {ShopKey}, {nameof(Name)}: {Name}, {nameof(UserId)}: {UserId}";
+            return $"{nameof(ShopKey)}: {ShopKey}, {nameof(Name)}: {Name}, {nameof(DistrictManagerId)}: {DistrictManagerId}";
         }
     }
 }

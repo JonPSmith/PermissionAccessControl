@@ -8,5 +8,7 @@ namespace DataAuthorize
         string UserId { get; }
 
         int ShopKey { get; }
+
+        string DistrictManagerId { get;}
     }
 }

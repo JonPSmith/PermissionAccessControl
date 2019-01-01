@@ -9,10 +9,12 @@ namespace DataAuthorize
 {
     public class GetClaimsFromUser : IGetClaimsProvider
     {
-        public const string ShopKeyClaimName = "ShopId";
+        public const string ShopKeyClaimName = "ShopKey";
+        public const string DistrictManagerIdClaimName = "DistrictManagerId";
 
         public string UserId { get; private set; }
         public int ShopKey { get; private set; }
+        public string DistrictManagerId { get; private set; }
 
         public GetClaimsFromUser(IHttpContextAccessor accessor)
         {
@@ -23,6 +25,7 @@ namespace DataAuthorize
                 int.TryParse(shopKeyString, out var shopKey);
                 ShopKey = shopKey;
             }
+            DistrictManagerId = accessor.HttpContext?.User.Claims.SingleOrDefault(x => x.Type == DistrictManagerIdClaimName)?.Value;
         }
     }
 }

@@ -77,8 +77,7 @@ namespace StartupCode
                     if (!shopsDict.ContainsKey(shopName))
                     {
                         var shop = new Shop { Name = shopName };
-                        context.Add(shop);
-                        context.SaveChanges();
+                        shop.SetShopKey(shopsDict.Values.Count + 1);  //set the shopKey, as used later
                         shopsDict[shopName] = shop;
                     }
 
@@ -111,9 +110,9 @@ namespace StartupCode
             var i = 1;
             foreach (var shop in shops)
             {
-                var stock1 = new StockInfo {Name = $"{shop.Name} nice stuff", NumInStock = 10, AtShop = shop};
-                var stock2 = new StockInfo { Name = $"{shop.Name} other stuff", NumInStock = 22, AtShop = shop };
-                var stock3 = new StockInfo { Name = $"{shop.Name} thingy", NumInStock = 3, AtShop = shop };
+                var stock1 = new StockInfo {Name = $"{shop.Name} nice stuff", NumInStock = 10, AtShop = shop, DistrictManagerId = shop.DistrictManagerId};
+                var stock2 = new StockInfo { Name = $"{shop.Name} other stuff", NumInStock = 22, AtShop = shop, DistrictManagerId = shop.DistrictManagerId };
+                var stock3 = new StockInfo { Name = $"{shop.Name} thingy", NumInStock = 3, AtShop = shop, DistrictManagerId = shop.DistrictManagerId };
                 context.AddRange(stock1, stock2, stock3);
             }
         }

@@ -8,5 +8,6 @@ namespace DataAuthorize
     {
         public string UserId => null;
         public int ShopKey => 0;
+        public string DistrictManagerId => null;
     }
 }

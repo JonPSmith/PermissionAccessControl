@@ -8,14 +8,16 @@ namespace Test.Mocks
 {
     public class MockGetClaimsProvider : IGetClaimsProvider
     {
-        public MockGetClaimsProvider(string userId, int shopKey)
+        public MockGetClaimsProvider(string userId, int shopKey, string districtManagerId)
         {
             UserId = userId ?? throw new ArgumentNullException(nameof(userId));
             ShopKey = shopKey;
+            DistrictManagerId = districtManagerId ?? throw new ArgumentNullException(nameof(districtManagerId));
         }
 
         public string UserId { get; }
         public int ShopKey { get; }
+        public string DistrictManagerId { get; }
 
     }
 }

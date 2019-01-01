@@ -11,7 +11,8 @@ namespace DataLayer.EfCode
 {
     public class MultiTenantDbContext : DbContext
     {
-        private readonly int _shopKey;
+        public int ShopKey { get; }
+        public string DistrictManagerId { get; }
 
         public DbSet<MultiTenantUser> MultiTenantUsers { get; set; }
         public DbSet<Shop> Shops { get; set; }
@@ -20,29 +21,34 @@ namespace DataLayer.EfCode
         public MultiTenantDbContext(DbContextOptions<MultiTenantDbContext> options, IGetClaimsProvider userData)
             : base(options)
         {
-            _shopKey = userData.ShopKey;
+            ShopKey = userData.ShopKey;
+            DistrictManagerId = userData.DistrictManagerId;
         }
 
         //I only have to override these two version of SaveChanges, as the other two versions call these
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
-            this.MarkCreatedItemWithShopKey(_shopKey);
+            this.MarkCreatedItemWithShopKey(ShopKey);
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = new CancellationToken())
         {
-            this.MarkCreatedItemWithShopKey(_shopKey);
+            this.MarkCreatedItemWithShopKey(ShopKey);
             return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MultiTenantUser>().HasMany<Shop>(x => x.AccessTo).WithOne();
+            modelBuilder.Entity<MultiTenantUser>().HasMany<Shop>(x => x.AccessTo).WithOne(x => x.DistrictManager);
 
-            modelBuilder.Entity<MultiTenantUser>().HasQueryFilter(x => x.ShopKey == _shopKey);
-            modelBuilder.Entity<Shop>().HasQueryFilter(x => x.ShopKey == _shopKey);
-            modelBuilder.Entity<StockInfo>().HasQueryFilter(x => x.ShopKey == _shopKey);
+            modelBuilder.Entity<MultiTenantUser>().HasQueryFilter(x => x.ShopKey == ShopKey);
+            modelBuilder.Entity<Shop>().HasQueryFilter(x => x.ShopKey == ShopKey);
+
+            //Altered query filter to handle hierarchical access
+            modelBuilder.Entity<StockInfo>().HasQueryFilter(x => DistrictManagerId == null 
+                ? x.ShopKey == ShopKey
+                : x.DistrictManagerId == DistrictManagerId);
         }
     }
 }

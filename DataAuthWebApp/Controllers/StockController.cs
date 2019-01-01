@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using DataLayer.EfCode;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAuthWebApp.Controllers
 {
     public class StockController : Controller
     {
-        private MultiTenantDbContext _context;
+        private readonly MultiTenantDbContext _context;
 
         public StockController(MultiTenantDbContext context)
         {
@@ -21,6 +18,7 @@ namespace DataAuthWebApp.Controllers
         // GET: Stock
         public ActionResult Index()
         {
+            //var all = _context.CurrentStock.IgnoreQueryFilters().ToList();
             var stock = _context.CurrentStock.ToList();
             return View(stock);
         }

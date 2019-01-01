@@ -40,6 +40,10 @@ namespace DataAuthWebApp
                 if (mTUser == null)
                     throw new InvalidOperationException($"The user {context.Principal.Claims.Single(x => x.Type == ClaimTypes.Name).Value} was not linked to a shop.");
                 claims.Add(new Claim(GetClaimsFromUser.ShopKeyClaimName, mTUser.ShopKey.ToString()));
+                if (mTUser.IsDistrictManager)
+                    claims.Add(new Claim(GetClaimsFromUser.DistrictManagerIdClaimName, mTUser.UserId));
+
+
             }
 
             //Build a new ClaimsPrincipal and use it to replace the current ClaimsPrincipal

@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using DataAuthWebApp.Data;
+using DataAuthWebApp.DisplayCode;
 using Microsoft.AspNetCore.Mvc;
 using DataAuthWebApp.Models;
+using DataLayer.EfCode;
 
 namespace DataAuthWebApp.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index([FromServices]ApplicationDbContext applicationDbContext,
+            [FromServices] MultiTenantDbContext extraAuthorizeDbContext)
         {
-            return View();
+            var userLister = new ListUsers(applicationDbContext, extraAuthorizeDbContext);
+
+            return View(userLister.ListUserWithRolesAndModules());
         }
 
         public IActionResult About()

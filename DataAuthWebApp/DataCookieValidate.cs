@@ -25,6 +25,12 @@ namespace DataAuthWebApp
 
         public async Task ValidateAsync(CookieValidatePrincipalContext context)
         {
+            //NOTE: To make easier to see the data authorization code I have removed  
+            //all the feature authorization code described in the article
+            //https://www.thereformedprogrammer.net/a-better-way-to-handle-authorization-in-asp-net-core/
+            //BUT in real life this method with have both the feature authorization and data authorization code in it
+
+
             if (context.Principal.Claims.Any(x => x.Type == GetClaimsFromUser.ShopKeyClaimName))
                 return;
 
@@ -36,14 +42,13 @@ namespace DataAuthWebApp
             using (var multiContext = new MultiTenantDbContext(_multiTenantOptions, new DummyClaimsFromUser()))
             {
                 var userId = context.Principal.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
-                var mTUser = multiContext.MultiTenantUsers.IgnoreQueryFilters().SingleOrDefault(x => x.UserId == userId);
+                var mTUser = await multiContext.MultiTenantUsers.IgnoreQueryFilters()
+                    .SingleOrDefaultAsync(x => x.UserId == userId);
                 if (mTUser == null)
-                    throw new InvalidOperationException($"The user {context.Principal.Claims.Single(x => x.Type == ClaimTypes.Name).Value} was not linked to a shop.");
+                    throw new InvalidOperationException($"The user {context.Principal.Claims.Single(x => x.Type == ClaimTypes.Name).Value} was not linked to a multi-tenant user.");
                 claims.Add(new Claim(GetClaimsFromUser.ShopKeyClaimName, mTUser.ShopKey.ToString()));
                 if (mTUser.IsDistrictManager)
                     claims.Add(new Claim(GetClaimsFromUser.DistrictManagerIdClaimName, mTUser.UserId));
-
-
             }
 
             //Build a new ClaimsPrincipal and use it to replace the current ClaimsPrincipal

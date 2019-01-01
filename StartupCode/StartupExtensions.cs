@@ -96,6 +96,7 @@ namespace StartupCode
                         : new MultiTenantUser
                         {
                             UserId = users.Single(x => x.Email == userInfo.Email).Id,
+                            //ShopKey is not set, i.e. it defaults to zero
                             IsDistrictManager = true,
                             AccessTo = shops
                         };

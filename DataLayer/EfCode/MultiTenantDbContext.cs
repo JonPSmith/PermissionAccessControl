@@ -40,9 +40,10 @@ namespace DataLayer.EfCode
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<MultiTenantUser>().HasMany(x => x.AccessTo).WithOne(x => x.DistrictManager);
-
+            //Standard multi-tenant query filter - just filter on ShopKey
+            //This assumes that the district manager cannot manage the shop users
             modelBuilder.Entity<MultiTenantUser>().HasQueryFilter(x => x.ShopKey == ShopKey);
+
             //Altered query filter to handle hierarchical access
             modelBuilder.Entity<Shop>().HasQueryFilter(x => DistrictManagerId == null
                 ? x.ShopKey == ShopKey

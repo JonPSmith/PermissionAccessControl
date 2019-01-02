@@ -43,5 +43,7 @@ _Remember - its a in-memory database so it loses anything you put in when it sto
 - Users D4u@g1.com, S4u@g1.com, T4u@g1.com, and Power@g1.com
    - These users access each access a different shop. You can list the shop's stock via the "Shop Stock" link in the nav bar.
 - 4uMan@g1.com:
-   - This use is a district manager for the three ...4U shops. That user can list the stock in all three shops. This shows how hierarchical access can be set up.
+   - This use is a district manager for the three ...4U shops. 
+When that user list the stock via the "Shop Stock" link they get the stock of all three shops that they are a manager of. 
+This shows how hierarchical access can be implemented.
 

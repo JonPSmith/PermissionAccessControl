@@ -22,10 +22,10 @@ Here are some comments on these:
 
 - Staff@g1.com: 
    - This user can  read the data in the Color controller, but can't change it (you get a "Access denied" error)
-   - This user has "bought" access to Feature1, so a "Feature1" link is added to the nav block.
+   - This user has "bought" access to Feature1, so a "Feature1" link is added to the nav block when they log in.
 - Manager@g1.com:
    - This user can  read and write the data in the Color controller.
-   - This user hasn't "bought" access to Feature1, so no link appears (and you get an "Access denied" error if you try to access it).
+   - This user hasn't "bought" access to Feature1, so no "Feature1" link appears for them (and they get an "Access denied" error if you try to access it).
 
 ## Data authorization
 

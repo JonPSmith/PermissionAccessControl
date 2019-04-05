@@ -44,10 +44,10 @@ namespace DataAuthWebApp
                 var userId = context.Principal.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier).Value;
                 var mTUser = await multiContext.MultiTenantUsers.IgnoreQueryFilters()
                     .SingleOrDefaultAsync(x => x.UserId == userId);
-                if (mTUser == null)
-                    throw new InvalidOperationException($"The user {context.Principal.Claims.Single(x => x.Type == ClaimTypes.Name).Value} was not linked to a multi-tenant user.");
-                claims.Add(new Claim(GetClaimsFromUser.ShopKeyClaimName, mTUser.ShopKey.ToString()));
-                if (mTUser.IsDistrictManager)
+                //This means unassigned users are given a ShopKey of zero, which means unassigned
+                var shopKey = mTUser?.ShopKey ?? 0;                
+                claims.Add(new Claim(GetClaimsFromUser.ShopKeyClaimName, shopKey.ToString()));
+                if (mTUser?.IsDistrictManager == true)
                     claims.Add(new Claim(GetClaimsFromUser.DistrictManagerIdClaimName, mTUser.UserId));
             }
 

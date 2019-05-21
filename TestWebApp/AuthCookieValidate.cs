@@ -32,7 +32,7 @@ namespace TestWebApp
             claims.AddRange(context.Principal.Claims); //Copy over existing claims
             //Now calculate the Permissions Claim value and add it
             claims.Add(new Claim(PermissionConstants.PackedPermissionClaimType,
-                await _rtoPCalcer.CalcPermissionsForUser(context.Principal)));
+                await _rtoPCalcer.CalcPermissionsForUser(context.Principal.Claims)));
 
             //Build a new ClaimsPrincipal and use it to replace the current ClaimsPrincipal
             var identity = new ClaimsIdentity(claims, "Cookie");

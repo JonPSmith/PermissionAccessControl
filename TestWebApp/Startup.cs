@@ -58,20 +58,30 @@ namespace TestWebApp
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
-            //We build the AuthCookie's OnValidatePrincipal 
-            var sp = services.BuildServiceProvider();
-            var extraAuthDbContextOptions = sp.GetRequiredService<DbContextOptions<ExtraAuthorizeDbContext>>();
-            var authCookieValidate = new AuthCookieValidate(new CalcAllowedPermissions(extraAuthDbContextOptions));
-
-            //see https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-2.1#cookie-settings
-            services.ConfigureApplicationCookie(options =>
+            if (true)
             {
-                options.Events.OnValidatePrincipal = authCookieValidate.ValidateAsync;
-            });
+                //We build the AuthCookie's OnValidatePrincipal 
+                var sp = services.BuildServiceProvider();
+                var extraAuthDbContextOptions = sp.GetRequiredService<DbContextOptions<ExtraAuthorizeDbContext>>();
+                var authCookieValidate = new AuthCookieValidate(new CalcAllowedPermissions(extraAuthDbContextOptions));
+
+                //see https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?view=aspnetcore-2.1#cookie-settings
+                services.ConfigureApplicationCookie(options =>
+                {
+                    options.Events.OnValidatePrincipal = authCookieValidate.ValidateAsync;
+                });
+            }
+            else
+            {
+                //For simple setup on login then this will work
+                services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, MyUserClaimsPrincipalFactory>();
+            }
 
             //Register the Permission policy handlers
             services.AddSingleton<IAuthorizationPolicyProvider, AuthorizationPolicyProvider>();
             services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

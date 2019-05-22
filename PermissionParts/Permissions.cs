@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PermissionParts
 {
-    public enum Permissions
+    public enum Permissions : short
     {
         NotSet = 0, //error condition
 

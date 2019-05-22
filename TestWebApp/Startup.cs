@@ -74,7 +74,7 @@ namespace TestWebApp
             else
             {
                 //For simple setup on login then this will work
-                services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, MyUserClaimsPrincipalFactory>();
+                services.AddScoped<IUserClaimsPrincipalFactory<IdentityUser>, AddPermissionsToUserClaims>();
             }
 
             //Register the Permission policy handlers

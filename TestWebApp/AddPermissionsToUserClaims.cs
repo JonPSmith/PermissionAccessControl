@@ -12,11 +12,11 @@ using RolesToPermission;
 namespace TestWebApp
 {
     //thanks to https://korzh.com/blogs/net-tricks/aspnet-identity-store-user-data-in-claims
-    public class MyUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<IdentityUser, IdentityRole>
+    public class AddPermissionsToUserClaims : UserClaimsPrincipalFactory<IdentityUser, IdentityRole>
     {
         private readonly ExtraAuthorizeDbContext _extraAuthDbContext;
 
-        public MyUserClaimsPrincipalFactory(
+        public AddPermissionsToUserClaims(
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,
             IOptions<IdentityOptions> optionsAccessor, 

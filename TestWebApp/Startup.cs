@@ -117,7 +117,8 @@ namespace TestWebApp
             app.UseAuthentication();
 
             //The users can only be set up after app.UseAuthentication() is called
-            serviceProvider.AddUsersAndExtraAuthAsync().Wait();
+            //see https://stackoverflow.com/questions/32257640/how-do-i-handle-async-operations-in-startup-configure on running async in sync
+            serviceProvider.AddUsersAndExtraAuthAsync().GetAwaiter().GetResult();
 
             app.UseMvc(routes =>
             {

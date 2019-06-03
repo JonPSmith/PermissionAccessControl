@@ -37,7 +37,11 @@ namespace StartupCode
                 var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                var users = await Task.WhenAll(userInfos.Select(async x => await AddUserWithRoles(x, userManager, roleManager)));
+                var users = new List<IdentityUser>();
+                foreach (var userInfoJson in userInfos)
+                {
+                    users.Add(await AddUserWithRoles(userInfoJson, userManager, roleManager));
+                }
 
                 var pathToRolePermissionData = Path.GetFullPath(Path.Combine(env.WebRootPath, SeedDataDir, RoleToPermissionsFilename));
                 var rolesToPermissions = JsonConvert.DeserializeObject<List<RoleToPermissions>>(File.ReadAllText(pathToRolePermissionData));
@@ -66,7 +70,7 @@ namespace StartupCode
         //private methods
 
         private static IEnumerable<Shop> SetupMultiTenantUsers(this MultiTenantDbContext context, List<UserInfoJson> userInfos,
-            IdentityUser[] users)
+            List<IdentityUser> users)
         {
             var shopsDict = new Dictionary<string,Shop>();
 
@@ -119,7 +123,7 @@ namespace StartupCode
         }
 
         private static IEnumerable<ModulesForUser> BuildModulesForUsers(this List<UserInfoJson> userInfo,
-            IdentityUser[] users)
+            List<IdentityUser> users)
         {
             foreach (var userInfoJson in userInfo.Where(x => !string.IsNullOrEmpty(x.ModulesCommaDelimited)))
             {
@@ -134,7 +138,7 @@ namespace StartupCode
             }
         }
 
-        private static string GetUserIdWithGivenEmail(this string email, IdentityUser[] users)
+        private static string GetUserIdWithGivenEmail(this string email, List<IdentityUser> users)
         {
             return users.Single(x => x.Email == email).Id;
         }

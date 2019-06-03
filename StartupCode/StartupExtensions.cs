@@ -112,7 +112,6 @@ namespace StartupCode
 
         private static void SetupStockInShops(this MultiTenantDbContext context, IEnumerable<Shop> shops)
         {
-            var i = 1;
             foreach (var shop in shops)
             {
                 var stock1 = new StockInfo {Name = $"{shop.Name} nice stuff", NumInStock = 10, AtShop = shop, DistrictManagerId = shop.DistrictManagerId};

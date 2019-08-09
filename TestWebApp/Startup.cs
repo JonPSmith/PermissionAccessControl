@@ -58,7 +58,7 @@ namespace TestWebApp
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
-            if (true)
+            if (false)
             {
                 //We build the AuthCookie's OnValidatePrincipal 
                 var sp = services.BuildServiceProvider();

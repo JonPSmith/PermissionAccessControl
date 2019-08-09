@@ -8,32 +8,24 @@ using Microsoft.Extensions.Options;
 namespace RolesToPermission
 {
     //thanks to https://www.jerriepelser.com/blog/creating-dynamic-authorization-policies-aspnet-core/
+    //And to GholamReza Rabbal see https://github.com/JonPSmith/PermissionAccessControl/issues/3
 
     public class AuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
     {
         private readonly AuthorizationOptions _options;
-        private readonly IConfiguration _configuration;
 
-        public AuthorizationPolicyProvider(IOptions<AuthorizationOptions> options, IConfiguration configuration) : base(options)
+        public AuthorizationPolicyProvider(IOptions<AuthorizationOptions> options) : base(options)
         {
             _options = options.Value;
-            _configuration = configuration;
         }
 
         public override async Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
-            var policy = await base.GetPolicyAsync(policyName);
-
-            if (policy == null)
-            {
-                policy = new AuthorizationPolicyBuilder()
-                    .AddRequirements(new PermissionRequirement(policyName))
-                    .Build();
-
-                // Add policy to the AuthorizationOptions, so we don't have to re-create it each time
-                _options.AddPolicy(policyName, policy);
-            }
-            return policy;
+            //See unit test that shows this is quicker (and safer) than the original version
+            return await base.GetPolicyAsync(policyName) 
+                   ?? new AuthorizationPolicyBuilder()
+                       .AddRequirements(new PermissionRequirement(policyName))
+                       .Build();
         }
     }
 }

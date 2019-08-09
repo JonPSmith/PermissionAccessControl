@@ -21,7 +21,7 @@ namespace RolesToPermission
 
         public override async Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
-            //See unit test that shows this is quicker (and safer) than the original version
+            //Unit tested shows this is quicker (and safer - see link to issue above) than the original version
             return await base.GetPolicyAsync(policyName) 
                    ?? new AuthorizationPolicyBuilder()
                        .AddRequirements(new PermissionRequirement(policyName))
